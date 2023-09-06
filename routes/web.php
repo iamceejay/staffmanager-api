@@ -14,8 +14,8 @@ use App\Http\Controllers\Job\SmoobuJobController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::post('/smoobu/webhook', [SmoobuJobController::class, 'webhook']);
