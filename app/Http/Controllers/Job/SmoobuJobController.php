@@ -10,6 +10,7 @@ use App\Http\Resources\SmoobuJobCollection;
 use App\Jobs\SendMessageJob;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class SmoobuJobController extends Controller
 {
@@ -288,6 +289,8 @@ class SmoobuJobController extends Controller
     }
 
     public function webhook(Request $request) {
+        Log::info($request);
+        
         try {
             if($request->action === 'newReservation') {
                 SmoobuJob::create([
