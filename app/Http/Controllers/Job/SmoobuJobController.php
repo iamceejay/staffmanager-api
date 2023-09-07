@@ -300,7 +300,7 @@ class SmoobuJobController extends Controller
                     'start'         => $request['data']['departure'] . ' 12:00:00',
                     'end'           => $request['data']['departure'] . ' 14:00:00',
                     'location'      => $request['data']['apartment']['name'],
-                    'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'] . ', Paid: ', $request['data']['price-paid'],
+                    'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'] . ', Paid: ' . $request['data']['price-paid'],
                     'status'        => 'available'
                 ]);
             }
