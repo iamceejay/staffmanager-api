@@ -289,21 +289,21 @@ class SmoobuJobController extends Controller
     }
 
     public function webhook(Request $request) {
-        Log::info($request);
+        Log::info($request['action']);
         
         try {
-            if($request->action === 'newReservation') {
-                SmoobuJob::create([
-                    'uuid'          => Str::uuid(),
-                    'smoobu_id'     => $request->data->id,
-                    'title'         => $request->data->apartment->name . ' - ' . $request->data['guest-name'],
-                    'start'         => $request->data->departure . '12:00:00',
-                    'end'           => $request->data->departure . '14:00:00',
-                    'location'      => $request->data->apartment->name,
-                    'description'   => $request->data->notice,
-                    'status'        => 'available'
-                ]);
-            }
+            // if($request->action === 'newReservation') {
+            //     SmoobuJob::create([
+            //         'uuid'          => Str::uuid(),
+            //         'smoobu_id'     => $request->data->id,
+            //         'title'         => $request->data->apartment->name . ' - ' . $request->data['guest-name'],
+            //         'start'         => $request->data->departure . '12:00:00',
+            //         'end'           => $request->data->departure . '14:00:00',
+            //         'location'      => $request->data->apartment->name,
+            //         'description'   => $request->data->notice,
+            //         'status'        => 'available'
+            //     ]);
+            // }
         } catch(Throwable $e) {
             report($e);
         }
