@@ -289,23 +289,23 @@ class SmoobuJobController extends Controller
     }
 
     public function webhook(Request $request) {
-        Log::info($request['action']);
+        Log::info($request);
         
         try {
-            // if($request->action === 'newReservation') {
-            //     SmoobuJob::create([
-            //         'uuid'          => Str::uuid(),
-            //         'smoobu_id'     => $request->data->id,
-            //         'title'         => $request->data->apartment->name . ' - ' . $request->data['guest-name'],
-            //         'start'         => $request->data->departure . '12:00:00',
-            //         'end'           => $request->data->departure . '14:00:00',
-            //         'location'      => $request->data->apartment->name,
-            //         'description'   => $request->data->notice,
-            //         'status'        => 'available'
-            //     ]);
-            // }
+            if($request->action === 'newReservation') {
+                SmoobuJob::create([
+                    'uuid'          => Str::uuid(),
+                    'smoobu_id'     => $request['data']['id'],
+                    'title'         => $request['data']['apartment']['name'] . ' - ' . $request['data']['guest-name'],
+                    'start'         => $request['data']['departure'] . '12:00:00',
+                    'end'           => $request['data']['departure'] . '14:00:00',
+                    'location'      => $request['data']['apartment']['name'],
+                    'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'] . ', Paid: ', $request['data']['price-paid'],
+                    'status'        => 'available'
+                ]);
+            }
         } catch(Throwable $e) {
-            report($e);
+            Log::error($e);
         }
     }
 }
