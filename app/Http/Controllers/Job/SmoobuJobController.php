@@ -326,6 +326,10 @@ class SmoobuJobController extends Controller
             if($request->action === 'updateReservation') {
                 $job = SmoobuJob::with('user')->where('smoobu_id', $request['data']['id'])->first();
 
+                if(!$job) {
+                    return false;
+                }
+
                 $update = SmoobuJob::where('smoobu_id', $request['data']['id'])->update([
                     'title'         => $request['data']['apartment']['name'] . ' - ' . $request['data']['guest-name'],
                     'start'         => $request['data']['departure'] . ' 12:00:00',
