@@ -292,6 +292,8 @@ class SmoobuJobController extends Controller
         Log::info($request);
         
         try {
+            DB::beginTransaction();
+
             if($request->action === 'newReservation') {
                 SmoobuJob::create([
                     'uuid'          => Str::uuid(),
@@ -300,12 +302,31 @@ class SmoobuJobController extends Controller
                     'start'         => $request['data']['departure'] . ' 12:00:00',
                     'end'           => $request['data']['departure'] . ' 14:00:00',
                     'location'      => $request['data']['apartment']['name'],
-                    'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'] . ', Paid: ' . $request['data']['price-paid'],
+                    'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'],
                     'status'        => 'available'
                 ]);
             }
+
+            if($request->action === 'cancelReservation') {
+                $job = SmoobuJob::with('user')->where('smoobu_id', $request['data']['id'])->first();
+
+                $update = SmoobuJob::where('smoobu_id', $request['data']['id'])->update([
+                    'status'    => 'cancelled',
+                    'staff_id'  => NULL
+                ]);
+
+                if($job->staff_id) {
+                    $message = 'Job ' . $job->title . ' has been cancelled. Login to Staffmanager account.';
+                    $recipient = $job->user->phone_number;
+
+                    $send_message = SendMessageJob::dispatch($recipient, $message);
+                }
+            }
+
+            DB::commit();
         } catch(Throwable $e) {
             Log::error($e);
+            DB::rollBack();
         }
     }
 }
