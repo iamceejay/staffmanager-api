@@ -323,6 +323,26 @@ class SmoobuJobController extends Controller
                 }
             }
 
+            if($request->action === 'updateReservation') {
+                $job = SmoobuJob::with('user')->where('smoobu_id', $request['data']['id'])->first();
+
+                $update = SmoobuJob::where('smoobu_id', $request['data']['id'])->update([
+                    'title'         => $request['data']['apartment']['name'] . ' - ' . $request['data']['guest-name'],
+                    'start'         => $request['data']['departure'] . ' 12:00:00',
+                    'end'           => $request['data']['departure'] . ' 14:00:00',
+                    'location'      => $request['data']['apartment']['name'],
+                    'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'],
+                ]);
+
+                if($job->staff_id) {
+                    $message = 'Job ' . $job->title . ' has been updated. Login to Staffmanager account.';
+
+                    $recipient = $job->user->phone_number;
+
+                    $send_message = SendMessageJob::dispatch($recipient, $message);
+                }
+            }
+
             DB::commit();
         } catch(Throwable $e) {
             Log::error($e);
