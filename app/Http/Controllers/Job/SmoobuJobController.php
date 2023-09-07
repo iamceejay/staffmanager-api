@@ -297,8 +297,8 @@ class SmoobuJobController extends Controller
                     'uuid'          => Str::uuid(),
                     'smoobu_id'     => $request['data']['id'],
                     'title'         => $request['data']['apartment']['name'] . ' - ' . $request['data']['guest-name'],
-                    'start'         => $request['data']['departure'] . '12:00:00',
-                    'end'           => $request['data']['departure'] . '14:00:00',
+                    'start'         => $request['data']['departure'] . ' 12:00:00',
+                    'end'           => $request['data']['departure'] . ' 14:00:00',
                     'location'      => $request['data']['apartment']['name'],
                     'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'] . ', Paid: ', $request['data']['price-paid'],
                     'status'        => 'available'
