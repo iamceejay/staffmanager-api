@@ -334,7 +334,7 @@ class SmoobuJobController extends Controller
                     'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'],
                 ]);
 
-                if($job->staff_id) {
+                if($job->staff_id !== NULL) {
                     $message = 'Job ' . $job->title . ' has been updated. Login to Staffmanager account.';
 
                     $recipient = $job->user->phone_number;
