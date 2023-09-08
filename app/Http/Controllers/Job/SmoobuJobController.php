@@ -152,7 +152,7 @@ class SmoobuJobController extends Controller
             ]);
 
             if($job->staff_id) {
-                $message = 'Job ' . $job->title . ' has been cancelled. Login to Staffmanager account.';
+                $message = 'Entschuldige, dein Dienst am ' . $job->start . ' im Apartment ' . $job->title . ' wurde storniert.';
                 $recipient = $job->user->phone_number;
 
                 $send_message = SendMessageJob::dispatch($recipient, $message);
@@ -201,9 +201,9 @@ class SmoobuJobController extends Controller
 
             if($job->staff_id) {
                 if($is_assignment) {
-                    $message = 'Job ' . $job->title . ' has been assigned to you. Login to Staffmanager account.';
+                    $message = 'Job ' . $job->title . ' - Du, wurdest soeben für den Dienst am ' . $job->start . ' eingetragen.';
                 } else {
-                    $message = 'Job ' . $job->title . ' has been updated. Login to Staffmanager account.';
+                    $message = 'Job ' . $job->title . ' - Has been updated. Login to Staffmanager account.';
                 }
 
                 $recipient = $job->user->phone_number;
@@ -316,7 +316,7 @@ class SmoobuJobController extends Controller
                 ]);
 
                 if($job->staff_id) {
-                    $message = 'Job ' . $job->title . ' has been cancelled. Login to Staffmanager account.';
+                    $message = 'Entschuldige, dein Dienst am ' . $job->start . ' im Apartment ' . $job->title . ' wurde storniert.';
                     $recipient = $job->user->phone_number;
 
                     $send_message = SendMessageJob::dispatch($recipient, $message);
@@ -351,6 +351,46 @@ class SmoobuJobController extends Controller
         } catch(Throwable $e) {
             Log::error($e);
             DB::rollBack();
+        }
+    }
+
+    public function staffAssignment(Request $request) {
+        DB::beginTransaction();
+
+        try {
+            $job = SmoobuJob::with('user')->where('uuid', $request->uuid)->first();
+            $user = Auth::user();
+
+            $update = SmoobuJob::where('uuid', $request->uuid)->update([
+                'staff_id'      => $user->id,
+                'status'        => 'taken'
+            ]);
+
+            $job = SmoobuJob::with('user')->where('uuid', $request->uuid)->first();
+
+            if($job->staff_id) {
+                $message = 'Job ' . $job->title . ' - Du, wurdest soeben für den Dienst am ' . $job->start . ' eingetragen.';
+
+                $recipient = $job->user->phone_number;
+
+                $send_message = SendMessageJob::dispatch($recipient, $message);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status'    => 'success',
+                'message'   => 'Job has been updated.',
+            ], 200);
+        } catch(Throwable $e) {
+            DB::rollBack();
+
+            report($e);
+
+            return response()->json([
+                'message'   => 'Internal server error.',
+                'status'    => 'error'
+            ], 500);
         }
     }
 }

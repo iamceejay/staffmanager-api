@@ -34,7 +34,7 @@ class UserController extends Controller
                 'first_name'    => $request->firstName,
                 'last_name'     => $request->lastName,
                 'email'         => $request->email,
-                'phone_number'  => preg_replace('/\D+/', '', $request->phone),
+                'phone_number'  => '+' . preg_replace('/\D+/', '', $request->phone),
                 'password'      => Hash::make($request->password)
             ]);
 

@@ -45,6 +45,7 @@ Route::group([
         Route::get('/assigned', [SmoobuJobController::class, 'assigned']);
         Route::get('/details/{id}', [SmoobuJobController::class, 'details']);
         Route::get('/calendar', [SmoobuJobController::class, 'calendarJobs']);
+        Route::put('/assignment', [SmoobuJobController::class, 'staffAssignment']);
 
         Route::middleware('role:admin')->group(function() {
             Route::get('/all', [SmoobuJobController::class, 'index']);

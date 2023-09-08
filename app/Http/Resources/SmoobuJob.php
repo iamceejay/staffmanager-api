@@ -26,11 +26,12 @@ class SmoobuJob extends JsonResource
                 'start'   => date('Y-m-d H:i', strtotime($this->start)),
                 'end'     => date('Y-m-d H:i', strtotime($this->end)),
             ],
-            'isEditable'  => $user === 'admin' ? true : false,
+            'isEditable'  => ($user === 'admin' || $this->status === 'available') ? true : false,
             'description' => $this->description,
             'location'    => $this->location,
             'colorScheme' => $this->status,
-            'disableDnD'  => ['month', 'week', 'day']
+            'disableDnD'  => ['month', 'week', 'day'],
+            'isAdmin'     => $user === 'admin' ? true : false
         ];
     }
 }
