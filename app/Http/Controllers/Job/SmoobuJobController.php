@@ -307,13 +307,25 @@ class SmoobuJobController extends Controller
                     'Cache-Control' => 'no-cache'
                 ])->get('https://login.smoobu.com/api/reservations/' . $request['data']['id']);
 
+                $location = Http::acceptJson()->withHeaders([
+                    'Api-Key'       => $key,
+                    'Cache-Control' => 'no-cache'
+                ])->get('https://login.smoobu.com/api/apartments/' . $request['apartment']['id']);
+
+                if(isset($location['location']) && isset($location['location']['city'])) {
+                    $location = $location['location'];
+                    $location = ltrim(implode(' ', $location));
+                } else {
+                    $location = $request['data']['apartment']['name'];
+                }
+
                 SmoobuJob::create([
                     'uuid'          => Str::uuid(),
                     'smoobu_id'     => $request['data']['id'],
                     'title'         => $request['data']['apartment']['name'],
                     'start'         => $request['data']['departure'] . ' ' . isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00',
                     'end'           => $request['data']['departure'] . ' ' . isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00',
-                    'location'      => $request['data']['apartment']['name'],
+                    'location'      => $location,
                     'description'   => $request['data']['notice'],
                     'status'        => 'available'
                 ]);
@@ -347,11 +359,23 @@ class SmoobuJobController extends Controller
                     'Cache-Control' => 'no-cache'
                 ])->get('https://login.smoobu.com/api/reservations/' . $request['data']['id']);
 
+                $location = Http::acceptJson()->withHeaders([
+                    'Api-Key'       => $key,
+                    'Cache-Control' => 'no-cache'
+                ])->get('https://login.smoobu.com/api/apartments/' . $request['apartment']['id']);
+
+                if(isset($location['location']) && isset($location['location']['city'])) {
+                    $location = $location['location'];
+                    $location = ltrim(implode(' ', $location));
+                } else {
+                    $location = $request['data']['apartment']['name'];
+                }
+
                 $update = SmoobuJob::where('smoobu_id', $request['data']['id'])->update([
                     'title'         => $request['data']['apartment']['name'],
                     'start'         => $request['data']['departure'] . ' ' . isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00',
                     'end'           => $request['data']['departure'] . ' ' . isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00',
-                    'location'      => $request['data']['apartment']['name'],
+                    'location'      => $location,
                     'description'   => $request['data']['notice'],
                 ]);
 
