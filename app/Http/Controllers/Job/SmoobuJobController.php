@@ -310,7 +310,7 @@ class SmoobuJobController extends Controller
                 $location = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
                     'Cache-Control' => 'no-cache'
-                ])->get('https://login.smoobu.com/api/apartments/' . $request['apartment']['id']);
+                ])->get('https://login.smoobu.com/api/apartments/' . $resp['apartment']['id']);
 
                 if(isset($location['location']) && isset($location['location']['city'])) {
                     $location = $location['location'];
@@ -362,7 +362,7 @@ class SmoobuJobController extends Controller
                 $location = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
                     'Cache-Control' => 'no-cache'
-                ])->get('https://login.smoobu.com/api/apartments/' . $request['apartment']['id']);
+                ])->get('https://login.smoobu.com/api/apartments/' . $resp['apartment']['id']);
 
                 if(isset($location['location']) && isset($location['location']['city'])) {
                     $location = $location['location'];
