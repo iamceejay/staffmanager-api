@@ -323,8 +323,8 @@ class SmoobuJobController extends Controller
                     'uuid'          => Str::uuid(),
                     'smoobu_id'     => $request['data']['id'],
                     'title'         => $request['data']['apartment']['name'],
-                    'start'         => $request['data']['departure'] . ' ' . isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00',
-                    'end'           => $request['data']['departure'] . ' ' . isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00',
+                    'start'         => $request['data']['departure'] . ' ' . (isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00'),
+                    'end'           => $request['data']['departure'] . ' ' . (isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00'),
                     'location'      => $location,
                     'description'   => $request['data']['notice'],
                     'status'        => 'available'
@@ -373,8 +373,8 @@ class SmoobuJobController extends Controller
 
                 $update = SmoobuJob::where('smoobu_id', $request['data']['id'])->update([
                     'title'         => $request['data']['apartment']['name'],
-                    'start'         => $request['data']['departure'] . ' ' . isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00',
-                    'end'           => $request['data']['departure'] . ' ' . isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00',
+                    'start'         => $request['data']['departure'] . ' ' . (isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00'),
+                    'end'           => $request['data']['departure'] . ' ' . (isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00'),
                     'location'      => $location,
                     'description'   => $request['data']['notice'],
                 ]);
