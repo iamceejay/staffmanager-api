@@ -11,6 +11,7 @@ use App\Jobs\SendMessageJob;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class SmoobuJobController extends Controller
 {
@@ -36,7 +37,7 @@ class SmoobuJobController extends Controller
             $jobs = $jobs->where('staff_id', $request->staff);
         }
 
-        if($request->sort) {
+        if($request->sort && $request->sort !== '') {
             switch($request->sort) {
                 case 'new':
                     $jobs->orderBy('created_at', 'desc');
@@ -57,6 +58,8 @@ class SmoobuJobController extends Controller
                     $jobs->orderBy('updated_at', 'desc');
                     break;
             }
+        } else {
+            $jobs->orderBy(DB::raw('ABS(DATEDIFF(smoobu_jobs.start, NOW()))'));
         }
 
         $jobs = $jobs->get();
@@ -102,6 +105,8 @@ class SmoobuJobController extends Controller
                     $jobs->orderBy('updated_at', 'desc');
                     break;
             }
+        } else {
+            $jobs->orderBy(DB::raw('ABS(DATEDIFF(smoobu_jobs.start, NOW()))'));
         }
 
         $jobs = $jobs->get();
@@ -291,18 +296,25 @@ class SmoobuJobController extends Controller
     public function webhook(Request $request) {
         Log::info($request);
         
+        $key = getenv('SMOOBU_KEY');
+
         try {
             DB::beginTransaction();
 
             if($request->action === 'newReservation') {
+                $resp = Http::acceptJson()->withHeaders([
+                    'Api-Key'       => $key,
+                    'Cache-Control' => 'no-cache'
+                ])->get('https://login.smoobu.com/api/reservations/' . $request['data']['id']);
+
                 SmoobuJob::create([
                     'uuid'          => Str::uuid(),
                     'smoobu_id'     => $request['data']['id'],
-                    'title'         => $request['data']['apartment']['name'] . ' - ' . $request['data']['guest-name'],
-                    'start'         => $request['data']['departure'] . ' 12:00:00',
-                    'end'           => $request['data']['departure'] . ' 14:00:00',
+                    'title'         => $request['data']['apartment']['name'],
+                    'start'         => $request['data']['departure'] . ' ' . isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00',
+                    'end'           => $request['data']['departure'] . ' ' . isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00',
                     'location'      => $request['data']['apartment']['name'],
-                    'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'],
+                    'description'   => $request['data']['notice'],
                     'status'        => 'available'
                 ]);
             }
@@ -330,12 +342,17 @@ class SmoobuJobController extends Controller
                     return false;
                 }
 
+                $resp = Http::acceptJson()->withHeaders([
+                    'Api-Key'       => $key,
+                    'Cache-Control' => 'no-cache'
+                ])->get('https://login.smoobu.com/api/reservations/' . $request['data']['id']);
+
                 $update = SmoobuJob::where('smoobu_id', $request['data']['id'])->update([
-                    'title'         => $request['data']['apartment']['name'] . ' - ' . $request['data']['guest-name'],
-                    'start'         => $request['data']['departure'] . ' 12:00:00',
-                    'end'           => $request['data']['departure'] . ' 14:00:00',
+                    'title'         => $request['data']['apartment']['name'],
+                    'start'         => $request['data']['departure'] . ' ' . isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00',
+                    'end'           => $request['data']['departure'] . ' ' . isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00',
                     'location'      => $request['data']['apartment']['name'],
-                    'description'   => 'Adults: ' . $request['data']['adults'] . ', Children: ' . $request['data']['children'] . ', Notice: ' . $request['data']['notice'],
+                    'description'   => $request['data']['notice'],
                 ]);
 
                 if($job->staff_id !== NULL) {
