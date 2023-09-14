@@ -15,7 +15,7 @@ class SyncSmoobuBookings extends Command
      *
      * @var string
      */
-    protected $signature = 'staffmanager:sync-smoobu-bookings';
+    protected $signature = 'staffmanager:sync-smoobu-bookings {from} {to}';
 
     /**
      * The console command description.
@@ -34,7 +34,8 @@ class SyncSmoobuBookings extends Command
         $bookings = Http::acceptJson()->withQueryParameters([
             'pageSize'      => 100,
             'page'          => 1,
-            'created_from'  => '2023-09-01'
+            'arrivalFrom'   => $this->argument('from'),
+            'arrivalTo'     => $this->argument('to')
         ])->withHeaders([
             'Api-Key'       => $key,
             'Cache-Control' => 'no-cache'
