@@ -29,8 +29,10 @@ class SmoobuJobController extends Controller
                     });
         }
 
-        if($request->status) {
+        if($request->status && $request->status !== '') {
             $jobs = $jobs->where('status', $request->status);
+        } else {
+            $jobs = $jobs->where('status', '!=', 'cancelled');
         }
 
         if($request->staff) {
@@ -83,6 +85,8 @@ class SmoobuJobController extends Controller
                             ->orWhere('last_name', 'LIKE', '%' . $request->keyword . '%');
                     });
         }
+
+        $jobs = $jobs->where('status', '!=', 'cancelled');
 
         if($request->sort) {
             switch($request->sort) {
