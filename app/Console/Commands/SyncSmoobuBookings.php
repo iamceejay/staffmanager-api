@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use App\Models\SmoobuJob;
+use Illuminate\Support\Str;
 
 class SyncSmoobuBookings extends Command
 {
@@ -29,11 +31,56 @@ class SyncSmoobuBookings extends Command
     {
         $key = getenv('SMOOBU_KEY');
 
-        $bookings = Http::acceptJson()->withHeaders([
+        $bookings = Http::acceptJson()->withQueryParameters([
+            'pageSize'      => 100,
+            'page'          => 1,
+            'created_from'  => '2023-09-01'
+        ])->withHeaders([
             'Api-Key'       => $key,
             'Cache-Control' => 'no-cache'
         ])->get('https://login.smoobu.com/api/reservations');
 
-        var_dump($bookings);
+        if($bookings['total_items']) {
+            $bookings = $bookings['bookings'];
+
+            foreach($bookings as $booking) {
+                $location = Http::acceptJson()->withHeaders([
+                    'Api-Key'       => $key,
+                    'Cache-Control' => 'no-cache'
+                ])->get('https://login.smoobu.com/api/apartments/' . $booking['apartment']['id']);
+
+                if(isset($location['location']) && isset($location['location']['city'])) {
+                    $location = $location['location'];
+                    $location = ltrim(implode(' ', $location));
+                } else {
+                    $location = $booking['apartment']['name'];
+                }
+
+                $exists = SmoobuJob::where('smoobu_id', $booking['id'])->first();
+
+                if($exists) {
+                    SmoobuJob::create([
+                        'uuid'          => Str::uuid(),
+                        'smoobu_id'     => $booking['id'],
+                        'title'         => $booking['apartment']['name'],
+                        'start'         => $booking['departure'] . ' ' . (isset($booking['check-out']) ? $booking['check-out'] . ':00' : '11:00:00'),
+                        'end'           => $booking['departure'] . ' ' . (isset($booking['check-in']) ? $booking['check-in'] . ':00' : '15:00:00'),
+                        'location'      => $location,
+                        'description'   => $booking['notice'],
+                        'status'        => 'available'
+                    ]);
+                } else {
+                    SmoobuJob::where('smoobu_id', $booking['id'])->update([
+                        'uuid'          => Str::uuid(),
+                        'smoobu_id'     => $booking['id'],
+                        'title'         => $booking['apartment']['name'],
+                        'start'         => $booking['departure'] . ' ' . (isset($booking['check-out']) ? $booking['check-out'] . ':00' : '11:00:00'),
+                        'end'           => $booking['departure'] . ' ' . (isset($booking['check-in']) ? $booking['check-in'] . ':00' : '15:00:00'),
+                        'location'      => $location,
+                        'description'   => $booking['notice']
+                    ]);
+                }
+            }
+        }
     }
 }
