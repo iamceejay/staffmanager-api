@@ -20,7 +20,7 @@ class SmoobuJob extends JsonResource
         return [
             'id'          => $this->uuid,
             'job_id'      => $this->id,
-            'title'       => $this->title,
+            'title'       => $this->status === 'taken' ? $this->title . ' - ' . $this->user->first_name . ' ' . $this->user->last_name : $this->title,
             'with'        => $this->staff_id ? $this->user->first_name . ' ' . $this->user->last_name : '',
             'time'        => [
                 'start'   => date('Y-m-d H:i', strtotime($this->start)),
