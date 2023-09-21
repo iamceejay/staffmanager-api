@@ -13,10 +13,6 @@
 		body {
 			margin: 0;
 			padding: 0;
-            background-image: url({{ asset('cancelled.png') }});
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center-center;
 		}
 
 		a[x-apple-data-detectors] {
@@ -89,6 +85,9 @@
 </head>
 
 <body style="background-color: #fff; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+    <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0.5;">
+        <img src="{{ asset('cancelled.png') }}" alt="Cancelled" style="width: 100%; height: 100%; margin: 0 auto;">
+    </div>
 	<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fff;">
 		<tbody>
 			<tr>
