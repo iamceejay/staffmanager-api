@@ -188,7 +188,7 @@
                                                                     </p>
 																	<p style="margin: 0; margin-bottom: 8px;">Number</p>
 																	<p style="margin: 0;">
-                                                                        {{ date('d.m', strtotime($invoice->arrival)) }} - {{ date('d.m.Y', strtotime($invoice->departure)) }}
+                                                                        {{ date('d.m', strtotime($invoice['arrival'])) }} - {{ date('d.m.Y', strtotime($invoice['departure'])) }}
                                                                     </p>
 																</div>
 															</td>
@@ -319,8 +319,8 @@
 																<div style="color:#101112;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
 																	<p style="margin: 0;">
                                                                         @php
-                                                                            $from = new DateTime($invoice->arrival);
-                                                                            $to = new DateTime($invoice->departure);
+                                                                            $from = new DateTime($invoice['arrival']);
+                                                                            $to = new DateTime($invoice['departure']);
 
                                                                             $nights = $to->diff($from)->format('%a');
                                                                         @endphp
@@ -338,7 +338,7 @@
 																<div style="color:#101112;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
 																	<p style="margin: 0;">
                                                                         <strong>Ferienwohnung</strong>
-                                                                        {{ $invoice->apartment->name }}
+                                                                        {{ $invoice['apartment']['name'] }}
                                                                     </p>
 																</div>
 															</td>
@@ -350,7 +350,7 @@
 																<div style="color:#101112;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
 																	<p style="margin: 0; margin-bottom: 8px;"><strong>Notiz</strong></p>
 																	<p style="margin: 0;">
-                                                                        {{ $invoice->adults + $invoice->children }} Personen
+                                                                        {{ $invoice['adults'] + $invoice['children'] }} Personen
                                                                     </p>
 																</div>
 															</td>
@@ -358,9 +358,9 @@
 													</table>
 												</td>
                                                 @php
-                                                    $total = number_format($invoice->price, 2, ",", ".");
-                                                    $percentage = $invoice->price * 0.10;
-                                                    $net = $invoice->price - $percentage;
+                                                    $total = number_format($invoice['price'], 2, ",", ".");
+                                                    $percentage = $invoice['price'] * 0.10;
+                                                    $net = $invoice['price'] - $percentage;
 
                                                     $percentage = number_format($percentage, 2, ",", ".");
                                                     $net = number_format($net, 2, ",", ".");
