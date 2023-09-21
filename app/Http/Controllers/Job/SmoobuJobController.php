@@ -389,7 +389,7 @@ class SmoobuJobController extends Controller
                 Mail::send('mail.cancelled', [], function ($message) use ($pdf) {
                     $message->to('test@email.com')
                         ->subject('Noas Invoice Cancelled')
-                        ->attachData($pdf->output(), str_pad($invoice_insert->id, 4, '0', STR_PAD_LEFT) . '.pdf');
+                        ->attachData($pdf->output(), str_pad($invoice_data->id, 4, '0', STR_PAD_LEFT) . '.pdf');
                 });
             }
 
