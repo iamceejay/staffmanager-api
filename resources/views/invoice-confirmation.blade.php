@@ -184,7 +184,7 @@
 															<td class="pad">
 																<div style="color:#101112;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
 																	<p style="margin: 0; margin-bottom: 8px;">
-                                                                        {{ date('d.m.y', strtotime($invoice->created_at)) }}
+                                                                        {{ date('d.m.y', strtotime($invoice['created-at'])) }}
                                                                     </p>
 																	<p style="margin: 0; margin-bottom: 8px;">Number</p>
 																	<p style="margin: 0;">
