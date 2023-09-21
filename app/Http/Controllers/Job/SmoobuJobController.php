@@ -355,7 +355,7 @@ class SmoobuJobController extends Controller
                 Mail::send('mail.confirmation', [], function ($message) use ($pdf) {
                     $message->to('test@email.com')
                         ->subject('Noas Invoice')
-                        ->attachData($pdf->output(), "invoice.pdf");
+                        ->attachData($pdf->output(), str_pad($invoice_insert->id, 4, '0', STR_PAD_LEFT) . '.pdf');
                 });
             }
 
@@ -373,6 +373,24 @@ class SmoobuJobController extends Controller
 
                     $send_message = SendMessageJob::dispatch($recipient, $message);
                 }
+
+                // Invoice
+                $invoice_data = Invoice::where('smoobu_id', $request['data']['id'])->first();
+
+                $invoice = $request['data'];
+                $pdf = PDF::loadView(
+                    'invoice-cancelled',
+                    [
+                        'invoice'   => $invoice,
+                        'number'    => str_pad($invoice_data->id, 4, '0', STR_PAD_LEFT)
+                    ]
+                );
+
+                Mail::send('mail.cancelled', [], function ($message) use ($pdf) {
+                    $message->to('test@email.com')
+                        ->subject('Noas Invoice Cancelled')
+                        ->attachData($pdf->output(), str_pad($invoice_insert->id, 4, '0', STR_PAD_LEFT) . '.pdf');
+                });
             }
 
             if($request->action === 'updateReservation') {

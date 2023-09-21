@@ -1,0 +1,1 @@
+<h1>Noas Booking Cancelled</h1>
