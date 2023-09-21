@@ -352,7 +352,7 @@ class SmoobuJobController extends Controller
                     ]
                 );
 
-                Mail::send('mail.confirmation', [], function ($message) use ($pdf) {
+                Mail::send('mail.confirmation', [], function ($message) use ($pdf, $invoice_insert) {
                     $message->to('test@email.com')
                         ->subject('Noas Invoice')
                         ->attachData($pdf->output(), str_pad($invoice_insert->id, 4, '0', STR_PAD_LEFT) . '.pdf');
@@ -386,7 +386,7 @@ class SmoobuJobController extends Controller
                     ]
                 );
 
-                Mail::send('mail.cancelled', [], function ($message) use ($pdf) {
+                Mail::send('mail.cancelled', [], function ($message) use ($pdf, $invoice_data) {
                     $message->to('test@email.com')
                         ->subject('Noas Invoice Cancelled')
                         ->attachData($pdf->output(), str_pad($invoice_data->id, 4, '0', STR_PAD_LEFT) . '.pdf');
