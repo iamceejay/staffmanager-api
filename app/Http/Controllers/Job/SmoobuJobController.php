@@ -339,7 +339,7 @@ class SmoobuJobController extends Controller
 
                 // Invoice
                 $invoice = $request['data'];
-                $pdf = PDF::loadView('invoice-confirmation', compact($invoice));
+                $pdf = PDF::loadView('invoice-confirmation', compact('invoice'));
 
                 Mail::send('mail.confirmation', $data, function ($message) use ($pdf) {
                     $message->to('test@email.com')
