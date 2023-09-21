@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\ConfirmBooking;
+use Mail;
 
 class SmoobuJobController extends Controller
 {
@@ -333,6 +336,16 @@ class SmoobuJobController extends Controller
                     'description'   => $request['data']['notice'],
                     'status'        => 'available'
                 ]);
+
+                // Invoice
+                $invoice = $request['data'];
+                $pdf = PDF::loadView('invoice-confirmation', compact($invoice));
+
+                Mail::send('mail.confirmation', $data, function ($message) use ($pdf) {
+                    $message->to('test@email.com')
+                        ->subject('Noas Invoice')
+                        ->attachData($pdf->output(), "invoice.pdf");
+                });
             }
 
             if($request->action === 'cancelReservation') {
