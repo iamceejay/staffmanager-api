@@ -341,7 +341,7 @@ class SmoobuJobController extends Controller
                 $invoice = $request['data'];
                 $pdf = PDF::loadView('invoice-confirmation', ['invoice' => $invoice]);
 
-                Mail::send('mail.confirmation', $data, function ($message) use ($pdf) {
+                Mail::send('mail.confirmation', [], function ($message) use ($pdf) {
                     $message->to('test@email.com')
                         ->subject('Noas Invoice')
                         ->attachData($pdf->output(), "invoice.pdf");
