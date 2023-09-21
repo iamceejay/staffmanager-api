@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Http;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\ConfirmBooking;
 use Mail;
+use App\Models\Invoice;
 
 class SmoobuJobController extends Controller
 {
@@ -338,8 +339,18 @@ class SmoobuJobController extends Controller
                 ]);
 
                 // Invoice
+                $invoice_insert = Invoice::create([
+                    'smoobu_id' => $request['data']['id']
+                ]);
+
                 $invoice = $request['data'];
-                $pdf = PDF::loadView('invoice-confirmation', ['invoice' => $invoice]);
+                $pdf = PDF::loadView(
+                    'invoice-confirmation',
+                    [
+                        'invoice'   => $invoice,
+                        'number'    => str_pad($invoice_insert->id, 4, '0', STR_PAD_LEFT)
+                    ]
+                );
 
                 Mail::send('mail.confirmation', [], function ($message) use ($pdf) {
                     $message->to('test@email.com')

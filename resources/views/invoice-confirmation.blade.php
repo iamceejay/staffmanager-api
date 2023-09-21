@@ -186,7 +186,9 @@
 																	<p style="margin: 0; margin-bottom: 8px;">
                                                                         {{ date('d.m.y', strtotime($invoice['created-at'])) }}
                                                                     </p>
-																	<p style="margin: 0; margin-bottom: 8px;">Number</p>
+																	<p style="margin: 0; margin-bottom: 8px;">
+                                                                        {{ $number }}
+                                                                    </p>
 																	<p style="margin: 0;">
                                                                         {{ date('d.m', strtotime($invoice['arrival'])) }} - {{ date('d.m.Y', strtotime($invoice['departure'])) }}
                                                                     </p>
@@ -213,7 +215,7 @@
 													<table class="heading_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 														<tr>
 															<td class="pad" style="padding-bottom:10px;padding-left:10px;padding-right:10px;padding-top:20px;text-align:center;width:100%;">
-																<h3 style="margin: 0; color: #000000; direction: ltr; font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">RECHNING 77/23</span></h3>
+																<h3 style="margin: 0; color: #000000; direction: ltr; font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">RECHNING {{ $number }}/23</span></h3>
 															</td>
 														</tr>
 													</table>
@@ -588,7 +590,7 @@
 														<tr>
 															<td class="pad">
 																<div style="color:#ffffff;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:400;letter-spacing:0px;line-height:150%;text-align:center;mso-line-height-alt:18px;">
-																	<p style="margin: 0;">Bitte bei Banküberweisung Rechnungsnummer "77/23" im Verwendungszweck angeben. Danke.</p>
+																	<p style="margin: 0;">Bitte bei Banküberweisung Rechnungsnummer "{{ $number }}/23" im Verwendungszweck angeben. Danke.</p>
 																</div>
 															</td>
 														</tr>
