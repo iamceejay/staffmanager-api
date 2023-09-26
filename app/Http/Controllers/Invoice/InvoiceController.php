@@ -20,7 +20,7 @@ class InvoiceController extends Controller
                             $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
                                 ->orWhere('departure', 'LIKE', '%' . $request->keyword . '%')
                                 ->orWhere('customer_name', 'LIKE', '%' . $request->keyword . '%')
-                                ->orWhere('id', 'LIKE', '%' . ($request->keyword + 1110) . '%');
+                                ->orWhere('id', 'LIKE', '%' . $request->keyword . '%');
                         });
         }
 
