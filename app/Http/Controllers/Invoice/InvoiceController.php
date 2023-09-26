@@ -12,7 +12,19 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class InvoiceController extends Controller
 {
     public function index(Request $request) {
-        $invoices = SmoobuJob::with('invoices')->paginate(20);
+        $invoices = SmoobuJob::with('invoices');
+
+        if($request->keyword) {
+            $invoices = $invoices->where('smoobu_id', 'LIKE', '%' . $request->keyword . '%')
+                        ->orWhereHas('invoices', function($query) use($request) {
+                            $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
+                                ->orWhere('departure', 'LIKE', '%' . $request->keyword . '%')
+                                ->orWhere('customer_name', 'LIKE', '%' . $request->keyword . '%')
+                                ->orWhere('id', 'LIKE', '%' . ($request->keyword + 1110) . '%');
+                        });
+        }
+
+        $invoices = $invoices->paginate(10);
 
         return response()->json([
             'message'   => 'Listing invoices',
