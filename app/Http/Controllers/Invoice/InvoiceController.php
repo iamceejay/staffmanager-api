@@ -72,4 +72,13 @@ class InvoiceController extends Controller
             }
         }
     }
+
+    public function details(Request $request) {
+        $invoice = Invoice::where('id', $request->id)->first();
+
+        return response()->json([
+            'status'    => 'success',
+            'invoice'   => $invoice
+        ]);
+    }
 }
