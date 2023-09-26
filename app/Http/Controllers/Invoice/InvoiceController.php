@@ -23,7 +23,7 @@ class InvoiceController extends Controller
                         });
             
             if(is_int($request->keyword)) {
-                $invoices = $invoices->orWhereHas('invoices', function($query) use($request) {
+                $invoices = $invoices->whereHas('invoices', function($query) use($request) {
                     $query->where('id', 'LIKE', '%' . (intval($request->keyword) + 1110) . '%');
                 });
             }
