@@ -22,7 +22,7 @@ class InvoiceController extends Controller
                                 ->orWhere('customer_name', 'LIKE', '%' . $request->keyword . '%');
                         });
             
-            if(is_int($request->keyword)) {
+            if(is_numeric($request->keyword)) {
                 $invoices = $invoices->whereHas('invoices', function($query) use($request) {
                     $query->where('id', 'LIKE', '%' . (intval($request->keyword) + 1110) . '%');
                 });
