@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Invoice;
 use App\Models\SmoobuJob;
+use Illuminate\Support\Facades\Http;
 
 class GenerateInvoices extends Command
 {
