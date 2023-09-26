@@ -81,4 +81,23 @@ class InvoiceController extends Controller
             'invoice'   => $invoice
         ]);
     }
+
+    public function update(Request $request) {
+        try {
+            $update = Invoice::where('id', $request->id)->update([
+                'customer_name'     => $request->name,
+                'customer_address'  => $request->address
+            ]);
+
+            return response()->json([
+                'status'    => 'success',
+                'update'    => $update
+            ]);
+        } catch(Throwable $e) {
+            return response()->json([
+                'status'    => 'error',
+                'message'   => 'Internal server error. Please try again.'
+            ], 500);
+        }
+    }
 }

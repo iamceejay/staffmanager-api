@@ -61,6 +61,7 @@ Route::group([
         Route::middleware('role:admin')->group(function() {
             Route::get('/all', [InvoiceController::class, 'index']);
             Route::get('/details', [InvoiceController::class, 'details']);
+            Route::put('/update', [InvoiceController::class, 'update']);
         });
     });
 });
