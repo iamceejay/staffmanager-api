@@ -348,14 +348,14 @@ class SmoobuJobController extends Controller
                     'invoice-confirmation',
                     [
                         'invoice'   => $invoice,
-                        'number'    => str_pad($invoice_insert->id, 4, '0', STR_PAD_LEFT)
+                        'number'    => 1110 + $invoice_insert->id
                     ]
                 );
 
                 Mail::send('mail.confirmation', [], function ($message) use ($pdf, $invoice_insert) {
                     $message->to('test@email.com')
                         ->subject('Noas Invoice')
-                        ->attachData($pdf->output(), str_pad($invoice_insert->id, 4, '0', STR_PAD_LEFT) . '.pdf');
+                        ->attachData($pdf->output(), 1110 + $invoice_insert->id . '.pdf');
                 });
             }
 
@@ -382,14 +382,14 @@ class SmoobuJobController extends Controller
                     'invoice-cancelled',
                     [
                         'invoice'   => $invoice,
-                        'number'    => str_pad($invoice_data->id, 4, '0', STR_PAD_LEFT)
+                        'number'    => 1110 + $invoice_data->id
                     ]
                 );
 
                 Mail::send('mail.cancelled', [], function ($message) use ($pdf, $invoice_data) {
                     $message->to('test@email.com')
                         ->subject('Noas Invoice Cancelled')
-                        ->attachData($pdf->output(), str_pad($invoice_data->id, 4, '0', STR_PAD_LEFT) . '.pdf');
+                        ->attachData($pdf->output(), 1110 + $invoice_data->id . '.pdf');
                 });
             }
 

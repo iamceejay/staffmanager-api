@@ -190,7 +190,7 @@
                                                                         {{ date('d.m.y', strtotime($invoice['created-at'])) }}
                                                                     </p>
 																	<p style="margin: 0; margin-bottom: 8px;">
-                                                                        {{ $number }}
+                                                                        {{ $number }}/23
                                                                     </p>
 																	<p style="margin: 0;">
                                                                         {{ date('d.m', strtotime($invoice['arrival'])) }} - {{ date('d.m.Y', strtotime($invoice['departure'])) }}

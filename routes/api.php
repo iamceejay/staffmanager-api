@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Job\SmoobuJobController;
+use App\Http\Controllers\Invoice\InvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,5 +55,11 @@ Route::group([
             Route::delete('/delete', [SmoobuJobController::class, 'delete']);
             Route::put('/complete', [SmoobuJobController::class, 'complete']);
         });
-    });    
+    });
+
+    Route::prefix('invoice')->group(function() {
+        Route::middleware('role:admin')->group(function() {
+            Route::get('/all', [InvoiceController::class, 'index']);
+        });
+    });
 });

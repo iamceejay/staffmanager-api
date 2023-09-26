@@ -26,4 +26,8 @@ class SmoobuJob extends Model
     public function user() {
         return $this->belongsTo(User::class, 'staff_id');
     }
+
+    public function invoices() {
+        return $this->hasOne(Invoice::class, 'smoobu_id');
+    }
 }
