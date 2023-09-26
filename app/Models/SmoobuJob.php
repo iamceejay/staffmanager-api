@@ -28,6 +28,6 @@ class SmoobuJob extends Model
     }
 
     public function invoices() {
-        return $this->hasOne(Invoice::class, 'smoobu_id');
+        return $this->hasOne(Invoice::class, 'smoobu_id', 'smoobu_id');
     }
 }
