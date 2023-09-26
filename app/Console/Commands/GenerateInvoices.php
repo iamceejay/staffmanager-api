@@ -36,7 +36,7 @@ class GenerateInvoices extends Command
             $booking = Http::acceptJson()->withHeaders([
                 'Api-Key'       => $key,
                 'Cache-Control' => 'no-cache'
-            ])->get('https://login.smoobu.com/api/reservations');
+            ])->get('https://login.smoobu.com/api/reservations/' . $job->smoobu_id);
 
             Invoice::create([
                 'smoobu_id'     => $booking['id'],
