@@ -21,7 +21,7 @@ class InvoiceController extends Controller
                                 $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
                                     ->orWhere('departure', 'LIKE', '%' . $request->keyword . '%')
                                     ->orWhere('customer_name', 'LIKE', '%' . $request->keyword . '%')
-                                    ->orWhere('id', 'LIKE', '%' . (intval($request->keyword) + 1110) . '%');
+                                    ->orWhere('id', 'LIKE', '%' . (intval($request->keyword) - 1110) . '%');
                             } else {
                                 $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
                                     ->orWhere('departure', 'LIKE', '%' . $request->keyword . '%')
