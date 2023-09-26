@@ -20,10 +20,10 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function download(Request $request) {
+    public function download($id) {
         $key = getenv('SMOOBU_KEY');
 
-        $invoice = Invoice::where('id', $request->id)->first();
+        $invoice = Invoice::where('id', $id)->first();
 
         $booking = Http::acceptJson()->withHeaders([
             'Api-Key'       => $key,

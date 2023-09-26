@@ -60,7 +60,7 @@ Route::group([
     Route::prefix('invoice')->group(function() {
         Route::middleware('role:admin')->group(function() {
             Route::get('/all', [InvoiceController::class, 'index']);
-            Route::get('/download', [InvoiceController::class, 'download']);
+            Route::get('/download/:id', [InvoiceController::class, 'download']);
         });
     });
 });
