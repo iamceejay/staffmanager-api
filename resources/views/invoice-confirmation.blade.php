@@ -155,10 +155,10 @@
 													<table class="paragraph_block block-2" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
 														<tr>
 															<td class="pad">
-																@if(isset($invoice['address']) && $invoice['address'])
+																@if($address)
 																<div style="color:#101112;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
 																	<p style="margin: 0;">
-																		{{ $invoice['address'] }}
+																		{{ $address }}
 																	</p>
 																</div>
 																@endif
