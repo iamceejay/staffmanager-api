@@ -17,16 +17,17 @@ class InvoiceController extends Controller
         if($request->keyword) {
             $invoices = $invoices->where('smoobu_id', 'LIKE', '%' . $request->keyword . '%')
                         ->orWhereHas('invoices', function($query) use($request) {
-                            $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
-                                ->orWhere('departure', 'LIKE', '%' . $request->keyword . '%')
-                                ->orWhere('customer_name', 'LIKE', '%' . $request->keyword . '%');
+                            if(is_numeric($request->keyword)) {
+                                $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
+                                    ->orWhere('departure', 'LIKE', '%' . $request->keyword . '%')
+                                    ->orWhere('customer_name', 'LIKE', '%' . $request->keyword . '%')
+                                    ->orWhere('id', 'LIKE', '%' . (intval($request->keyword) + 1110) . '%');
+                            } else {
+                                $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
+                                    ->orWhere('departure', 'LIKE', '%' . $request->keyword . '%')
+                                    ->orWhere('customer_name', 'LIKE', '%' . $request->keyword . '%');
+                            }
                         });
-            
-            if(is_numeric($request->keyword)) {
-                $invoices = $invoices->whereHas('invoices', function($query) use($request) {
-                    $query->where('id', 'LIKE', '%' . (intval($request->keyword) + 1110) . '%');
-                });
-            }
         }
 
         $invoices = $invoices->paginate(10);
