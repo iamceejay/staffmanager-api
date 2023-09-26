@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use App\Models\Invoice;
+use App\Models\SmoobuJob;
+
+class GenerateInvoices extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'staffmanager:generate-invoices';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Generate invoices based on Smoobu bookings.';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $key = getenv('SMOOBU_KEY');
+
+        $jobs = SmoobuJob::all();
+
+        foreach($jobs as $job) {
+            $booking = Http::acceptJson()->withHeaders([
+                'Api-Key'       => $key,
+                'Cache-Control' => 'no-cache'
+            ])->get('https://login.smoobu.com/api/reservations');
+
+            Invoice::create([
+                'smoobu_id'     => $booking['id'],
+                'customer_name' => $booking['guest-name']
+            ]);
+        }
+    }
+}

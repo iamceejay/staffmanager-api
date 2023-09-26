@@ -340,7 +340,8 @@ class SmoobuJobController extends Controller
 
                 // Invoice
                 $invoice_insert = Invoice::create([
-                    'smoobu_id' => $request['data']['id']
+                    'smoobu_id'     => $request['data']['id'],
+                    'customer_name' => $request['data']['guest-name']
                 ]);
 
                 $invoice = $request['data'];
@@ -348,7 +349,7 @@ class SmoobuJobController extends Controller
                     'invoice-confirmation',
                     [
                         'invoice'   => $invoice,
-                        'number'    => 1110 + $invoice_insert->id
+                        'number'    => 1110 + $invoice_insert->id,
                     ]
                 );
 
@@ -382,7 +383,8 @@ class SmoobuJobController extends Controller
                     'invoice-cancelled',
                     [
                         'invoice'   => $invoice,
-                        'number'    => 1110 + $invoice_data->id
+                        'number'    => 1110 + $invoice_data->id,
+                        'address'   => $invoice_data->customer_address
                     ]
                 );
 
