@@ -10,7 +10,7 @@ use App\Models\SmoobuJob;
 class InvoiceController extends Controller
 {
     public function index(Request $request) {
-        $invoices = SmoobuJob::with('invoices')->get();
+        $invoices = SmoobuJob::with('invoices')->paginate(10);
 
         return response()->json([
             'message'   => 'Listing invoices',
