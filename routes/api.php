@@ -65,5 +65,5 @@ Route::group([
 });
 
 Route::prefix('invoice')->group(function() {
-    Route::get('/download/:id', [InvoiceController::class, 'download']);
+    Route::get('/download', [InvoiceController::class, 'download']);
 });
