@@ -160,10 +160,9 @@
 															<td class="pad">
 																@if(isset($invoice['address']) && $invoice['address'])
 																<div style="color:#101112;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
-																	<p style="margin: 0; margin-bottom: 8px;">Address 1</p>
-																	<p style="margin: 0; margin-bottom: 8px;">Address 2</p>
-																	<p style="margin: 0; margin-bottom: 8px;">State</p>
-																	<p style="margin: 0;">Postal Country</p>
+																	<p style="margin: 0;">
+																		{{ $invoice['address'] }}
+																	</p>
 																</div>
 																@endif
 															</td>
