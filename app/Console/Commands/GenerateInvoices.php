@@ -31,6 +31,8 @@ class GenerateInvoices extends Command
         $key = getenv('SMOOBU_KEY');
 
         $jobs = SmoobuJob::all();
+        
+        Invoice::truncate();
 
         foreach($jobs as $job) {
             $booking = Http::acceptJson()->withHeaders([
@@ -40,7 +42,9 @@ class GenerateInvoices extends Command
 
             Invoice::create([
                 'smoobu_id'     => $booking['id'],
-                'customer_name' => $booking['guest-name']
+                'customer_name' => $booking['guest-name'],
+                'arrival'       => date('Y.m.d', strtotime($booking['arrival'])),
+                'departure'     => date('Y.m.d', strtotime($booking['departure']))
             ]);
         }
     }

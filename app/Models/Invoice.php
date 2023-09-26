@@ -12,7 +12,9 @@ class Invoice extends Model
     protected $fillable = [
         'smoobu_id',
         'customer_name',
-        'customer_address'
+        'customer_address',
+        'arrival',
+        'departure'
     ];
     
     public function job() {
