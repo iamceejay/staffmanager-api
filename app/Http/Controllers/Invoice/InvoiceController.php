@@ -55,6 +55,7 @@ class InvoiceController extends Controller
                     [
                         'invoice'   => $booking,
                         'number'    => 1110 + $invoice->id,
+                        'address'   => $invoice->customer_address
                     ]
                 );
 
@@ -65,6 +66,7 @@ class InvoiceController extends Controller
                     [
                         'invoice'   => $booking,
                         'number'    => 1110 + $invoice->id,
+                        'address'   => $invoice->customer_address
                     ]
                 );
 
