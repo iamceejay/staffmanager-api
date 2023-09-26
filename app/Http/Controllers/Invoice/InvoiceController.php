@@ -19,9 +19,14 @@ class InvoiceController extends Controller
                         ->orWhereHas('invoices', function($query) use($request) {
                             $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
                                 ->orWhere('departure', 'LIKE', '%' . $request->keyword . '%')
-                                ->orWhere('customer_name', 'LIKE', '%' . $request->keyword . '%')
-                                ->orWhere('id', 'LIKE', '%' . $request->keyword . '%');
+                                ->orWhere('customer_name', 'LIKE', '%' . $request->keyword . '%');
                         });
+            
+            if(is_int($request->keyword)) {
+                $invoices = $invoices->orWhereHas('invoices', function($query) use($request) {
+                    $query->where('id', 'LIKE', '%' . (intval($request->keyword) + 1110) . '%');
+                });
+            }
         }
 
         $invoices = $invoices->paginate(10);
