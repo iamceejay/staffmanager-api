@@ -28,7 +28,7 @@ class InvoiceController extends Controller
         $booking = Http::acceptJson()->withHeaders([
             'Api-Key'       => $key,
             'Cache-Control' => 'no-cache'
-        ])->get('https://login.smoobu.com/api/reservations/' . $job->smoobu_id);
+        ])->get('https://login.smoobu.com/api/reservations/' . $invoice->smoobu_id);
 
         if($booking) {
             if($booking['type'] !== 'cancellation') {
