@@ -6,15 +6,58 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\SmoobuJob;
+use Illuminate\Support\Facades\Http;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceController extends Controller
 {
     public function index(Request $request) {
-        $invoices = SmoobuJob::with('invoices')->paginate(10);
+        $invoices = SmoobuJob::with('invoices')->paginate(20);
 
         return response()->json([
             'message'   => 'Listing invoices',
             'invoices'  => $invoices
         ]);
+    }
+
+    public function download(Request $request) {
+        $key = getenv('SMOOBU_KEY');
+
+        $invoice = Invoice::where('id', $request->id)->first();
+
+        $booking = Http::acceptJson()->withHeaders([
+            'Api-Key'       => $key,
+            'Cache-Control' => 'no-cache'
+        ])->get('https://login.smoobu.com/api/reservations/' . $job->smoobu_id);
+
+        if($booking) {
+            if($booking['type'] !== 'cancellation') {
+                $pdf = PDF::loadView(
+                    'invoice-confirmation',
+                    [
+                        'invoice'   => $booking,
+                        'number'    => 1110 + $invoice->id,
+                    ]
+                );
+
+                return response()->json([
+                    'status'    => 'success',
+                    'data'      => $pdf->download(1110 + $invoice->id . '.pdf')
+                ]);
+            } else {
+                $pdf = PDF::loadView(
+                    'invoice-cancelled',
+                    [
+                        'invoice'   => $booking,
+                        'number'    => 1110 + $invoice->id,
+                    ]
+                );
+
+                return response()->json([
+                    'status'    => 'success',
+                    'data'      => $pdf->download(1110 + $invoice->id . '.pdf')
+                ]);
+            }
+        }
     }
 }
