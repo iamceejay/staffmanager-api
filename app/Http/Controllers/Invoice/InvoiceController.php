@@ -40,10 +40,7 @@ class InvoiceController extends Controller
                     ]
                 );
 
-                return response()->json([
-                    'status'    => 'success',
-                    'data'      => $pdf->download(1110 + $invoice->id . '.pdf')
-                ]);
+                return $pdf->download(1110 + $invoice->id . '.pdf');
             } else {
                 $pdf = PDF::loadView(
                     'invoice-cancelled',
@@ -53,10 +50,7 @@ class InvoiceController extends Controller
                     ]
                 );
 
-                return response()->json([
-                    'status'    => 'success',
-                    'data'      => $pdf->download(1110 + $invoice->id . '.pdf')
-                ]);
+                return $pdf->download(1110 + $invoice->id . '.pdf');
             }
         }
     }
