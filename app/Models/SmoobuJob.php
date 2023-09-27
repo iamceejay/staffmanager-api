@@ -20,7 +20,8 @@ class SmoobuJob extends Model
         'location',
         'status',
         'staff_id',
-        'smoobu_id'
+        'smoobu_id',
+        'smoobu_created_at'
     ];
 
     public function user() {
