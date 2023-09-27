@@ -21,7 +21,8 @@ class SmoobuJob extends Model
         'status',
         'staff_id',
         'smoobu_id',
-        'smoobu_created_at'
+        'smoobu_created_at',
+        'arrival'
     ];
 
     public function user() {

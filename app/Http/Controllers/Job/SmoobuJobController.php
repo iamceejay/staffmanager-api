@@ -336,7 +336,8 @@ class SmoobuJobController extends Controller
                     'location'          => $location,
                     'description'       => $request['data']['notice'],
                     'status'            => 'available',
-                    'smoobu_created_at' => $resp['created-at'] 
+                    'smoobu_created_at' => $request['data']['created-at'],
+                    'arrival'           => $resp['data']['arrival']
                 ]);
 
                 // Invoice

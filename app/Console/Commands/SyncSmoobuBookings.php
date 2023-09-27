@@ -79,7 +79,8 @@ class SyncSmoobuBookings extends Command
                         'location'          => $location,
                         'description'       => $booking['notice'],
                         'status'            => 'available',
-                        'smoobu_created_at' => $booking['created-at'] 
+                        'smoobu_created_at' => $booking['created-at'],
+                        'arrival'           => $booking['arrival']
                     ]);
                 }
             }
