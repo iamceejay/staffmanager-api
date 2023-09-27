@@ -34,8 +34,8 @@ class SyncSmoobuBookings extends Command
         $bookings = Http::acceptJson()->withQueryParameters([
             'pageSize'      => $this->argument('size'),
             'page'          => $this->argument('page'),
-            'created_from'   => $this->argument('from'),
-            'created_to'     => $this->argument('to')
+            'from'   => $this->argument('from'),
+            'to'     => $this->argument('to')
         ])->withHeaders([
             'Api-Key'       => $key,
             'Cache-Control' => 'no-cache'
@@ -48,6 +48,10 @@ class SyncSmoobuBookings extends Command
             $bookings = $bookings['bookings'];
 
             foreach($bookings as $booking) {
+                if(strtotime($booking['arrival']) < strtotime($this->argument('from')) ||  strtotime($booking['arrival']) > strtotime($this->argument('to'))) {
+                    continue;
+                }
+                
                 $location = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
                     'Cache-Control' => 'no-cache'
