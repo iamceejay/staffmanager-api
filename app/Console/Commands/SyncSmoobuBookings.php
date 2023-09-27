@@ -71,14 +71,15 @@ class SyncSmoobuBookings extends Command
                     ]);
                 } else {
                     SmoobuJob::create([
-                        'uuid'          => Str::uuid(),
-                        'smoobu_id'     => $booking['id'],
-                        'title'         => $booking['apartment']['name'],
-                        'start'         => $booking['departure'] . ' ' . (isset($booking['check-out']) ? $booking['check-out'] . ':00' : '11:00:00'),
-                        'end'           => $booking['departure'] . ' ' . (isset($booking['check-in']) ? $booking['check-in'] . ':00' : '15:00:00'),
-                        'location'      => $location,
-                        'description'   => $booking['notice'],
-                        'status'        => 'available'
+                        'uuid'              => Str::uuid(),
+                        'smoobu_id'         => $booking['id'],
+                        'title'             => $booking['apartment']['name'],
+                        'start'             => $booking['departure'] . ' ' . (isset($booking['check-out']) ? $booking['check-out'] . ':00' : '11:00:00'),
+                        'end'               => $booking['departure'] . ' ' . (isset($booking['check-in']) ? $booking['check-in'] . ':00' : '15:00:00'),
+                        'location'          => $location,
+                        'description'       => $booking['notice'],
+                        'status'            => 'available',
+                        'smoobu_created_at' => $booking['created-at'] 
                     ]);
                 }
             }
