@@ -15,7 +15,7 @@ class SyncSmoobuBookings extends Command
      *
      * @var string
      */
-    protected $signature = 'staffmanager:sync-smoobu-bookings {from} {to}';
+    protected $signature = 'staffmanager:sync-smoobu-bookings {from} {to} {page}';
 
     /**
      * The console command description.
@@ -33,7 +33,7 @@ class SyncSmoobuBookings extends Command
 
         $bookings = Http::acceptJson()->withQueryParameters([
             'pageSize'      => 100,
-            'page'          => 1,
+            'page'          => $this->argument('page'),
             'arrivalFrom'   => $this->argument('from'),
             // 'arrivalTo'     => $this->argument('to')
         ])->withHeaders([
@@ -41,8 +41,8 @@ class SyncSmoobuBookings extends Command
             'Cache-Control' => 'no-cache'
         ])->get('https://login.smoobu.com/api/reservations');
 
-        echo 'Total Items: ' . $bookings['total_items'];
-        echo 'Page Count: ' . $bookings['page_count'];
+        echo 'Total Items: ' . $bookings['total_items'] . ' ';
+        echo 'Page Count: ' . $bookings['page_count'] . ' ';
 
         if($bookings['total_items']) {
             $bookings = $bookings['bookings'];
