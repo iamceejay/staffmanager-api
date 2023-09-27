@@ -30,7 +30,7 @@ class InvoiceController extends Controller
                         });
         }
 
-        $invoices = $invoices->paginate(10);
+        $invoices = $invoices->orderBy('arrival')->paginate(10);
 
         return response()->json([
             'message'   => 'Listing invoices',
