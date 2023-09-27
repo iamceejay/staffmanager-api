@@ -41,6 +41,8 @@ class SyncSmoobuBookings extends Command
             'Cache-Control' => 'no-cache'
         ])->get('https://login.smoobu.com/api/reservations');
 
+        dd($bookings['total_items']);
+
         if($bookings['total_items']) {
             $bookings = $bookings['bookings'];
 
