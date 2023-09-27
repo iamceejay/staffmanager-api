@@ -15,7 +15,7 @@ class SyncSmoobuBookings extends Command
      *
      * @var string
      */
-    protected $signature = 'staffmanager:sync-smoobu-bookings {from} {to} {page} {size)';
+    protected $signature = 'staffmanager:sync-smoobu-bookings {from} {to} {page} {size}';
 
     /**
      * The console command description.
