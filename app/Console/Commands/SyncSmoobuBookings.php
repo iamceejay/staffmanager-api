@@ -43,6 +43,8 @@ class SyncSmoobuBookings extends Command
 
         dd($bookings['total_items']);
 
+        return false;
+
         if($bookings['total_items']) {
             $bookings = $bookings['bookings'];
 
