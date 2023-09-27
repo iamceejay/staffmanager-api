@@ -365,7 +365,7 @@
 												</td>
                                                 @php
                                                     $total = number_format($invoice['price'], 2, ",", ".");
-                                                    $percentage = $invoice['price'] * 0.10;
+                                                    $percentage = ($invoice['price'] / 110) * 100;
                                                     $net = $invoice['price'] - $percentage;
 
                                                     $percentage = number_format($percentage, 2, ",", ".");
