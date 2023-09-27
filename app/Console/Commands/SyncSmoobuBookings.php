@@ -34,8 +34,8 @@ class SyncSmoobuBookings extends Command
         $bookings = Http::acceptJson()->withQueryParameters([
             'pageSize'      => 100,
             'page'          => 1,
-            'arrivalFrom'   => $this->argument('from'),
-            'arrivalTo'     => $this->argument('to')
+            'from'   => $this->argument('from'),
+            'to'     => $this->argument('to')
         ])->withHeaders([
             'Api-Key'       => $key,
             'Cache-Control' => 'no-cache'
