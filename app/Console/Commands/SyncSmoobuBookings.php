@@ -35,7 +35,7 @@ class SyncSmoobuBookings extends Command
             'pageSize'      => 100,
             'page'          => 1,
             'arrivalFrom'   => $this->argument('from'),
-            'arrivalTo'     => $this->argument('to')
+            // 'arrivalTo'     => $this->argument('to')
         ])->withHeaders([
             'Api-Key'       => $key,
             'Cache-Control' => 'no-cache'
