@@ -219,7 +219,7 @@
 													<table class="heading_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 														<tr>
 															<td class="pad" style="padding-bottom:10px;padding-left:10px;padding-right:10px;padding-top:20px;text-align:center;width:100%;">
-																<h3 style="margin: 0; color: #000000; direction: ltr; font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">RECHNING {{ $number }}/23</span></h3>
+																<h3 style="margin: 0; color: #000000; direction: ltr; font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">RECHNUNG {{ $number }}/23</span></h3>
 															</td>
 														</tr>
 													</table>
@@ -634,7 +634,7 @@
 																<div style="color:#acacac;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:right;mso-line-height-alt:16.8px;">
 																	<p style="margin: 0; margin-bottom: 8px;">Sachbearbeiter:</p>
 																	<p style="margin: 0; margin-bottom: 8px;">Maximilian Danler</p>
-																	<p style="margin: 0;">Telefon: 004366475019284</p>
+																	<p style="margin: 0;">Telefon: +43 660 1950 750</p>
 																</div>
 															</td>
 														</tr>
