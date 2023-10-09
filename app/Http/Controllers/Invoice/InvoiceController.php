@@ -77,6 +77,45 @@ class InvoiceController extends Controller
         }
     }
 
+    public function csv(Request $request) {
+        $key = getenv('SMOOBU_KEY');
+
+        $invoices = [];
+
+        $jobs = SmoobuJob::whereYear('arrival', $request->year)
+                    ->whereMonth('arrival', $request->month)
+                    ->get();
+
+        foreach($jobs as $job) {
+            $invoice = Invoice::where('smoobu_id', $job->smoobu_id)->first();
+
+            $booking = Http::acceptJson()->withHeaders([
+                'Api-Key'       => $key,
+                'Cache-Control' => 'no-cache'
+            ])->get('https://login.smoobu.com/api/reservations/' . $invoice->smoobu_id);
+
+            $total = number_format($booking['price'], 2, ",", ".");
+            $net = ($booking['price'] / 110) * 100;
+            $percentage = $booking['price'] - $net;
+
+            $percentage = number_format($percentage, 2, ",", ".");
+            $net = number_format($net, 2, ",", ".");
+
+            $data = [
+                'invoice'       => 1110 + $invoice->id,
+                'date'          => $invoice->arrival,
+                'total'         => $total,
+                'tax'           => $percentage 
+            ];
+
+            array_push($invoices, $data);
+        }
+
+        return response()->json([
+            'invoices' => $invoices
+        ]);
+    }
+
     public function details(Request $request) {
         $invoice = Invoice::where('id', $request->id)->first();
 
