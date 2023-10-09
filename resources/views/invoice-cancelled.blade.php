@@ -638,7 +638,7 @@
 																<div style="color:#acacac;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:right;mso-line-height-alt:16.8px;">
 																	<p style="margin: 0; margin-bottom: 8px;">Sachbearbeiter:</p>
 																	<p style="margin: 0; margin-bottom: 8px;">Maximilian Danler</p>
-																	<p style="margin: 0;">Telefon: +43 660 1950 750</p>
+																	<p style="margin: 0;">Telefon: 0043660 1950750</p>
 																</div>
 															</td>
 														</tr>
