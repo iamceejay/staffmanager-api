@@ -102,10 +102,19 @@ class InvoiceController extends Controller
             $net = number_format($net, 2, ",", ".");
 
             $data = [
-                'invoice'       => 1110 + $invoice->id,
-                'date'          => $invoice->arrival,
-                'total'         => $total,
-                'tax'           => $percentage 
+                'satzart'       => '0',
+                'konto'         => 1110 + $invoice->id,
+                'gkonto'        => '',
+                'belegnr'       => '',
+                'belegdatum'    => $invoice->arrival,
+                'buchsymbol'    => '',
+                'buchcode'      => '',
+                'prozent'       => '10',
+                'steuercode'    => '1',
+                'betrag'        => $total,
+                'steuer'        => $percentage ,
+                'text'          => $booking['apartment']['name'],
+                'dokument'      => (1110 + $invoice->id) . '.pdf'
             ];
 
             array_push($invoices, $data);
