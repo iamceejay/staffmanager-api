@@ -16,7 +16,7 @@
 		}
 
 		.name {
-			font-family: DejaVu Sans, sans-serif;
+			font-family: DejaVu Sans, sans-serif !important;
 		}
 
 		a[x-apple-data-detectors] {
