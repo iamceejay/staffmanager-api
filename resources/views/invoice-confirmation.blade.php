@@ -150,7 +150,7 @@
 															<td class="pad">
 																<h3 style="margin: 0; color: #000000; direction: ltr; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;">
                                                                     <span class="tinyMce-placeholder name">
-																		{{ mb_convert_encoding($customer ?? $invoice['guest-name'], 'HTML-ENTITIES', 'UTF-8') }}
+																		{{ $customer ?? $invoice['guest-name'] }}
                                                                     </span>
                                                                 </h3>
 															</td>
