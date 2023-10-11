@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\SmoobuJob;
 use Illuminate\Support\Facades\Http;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -79,6 +80,8 @@ class InvoiceController extends Controller
 
     public function csv(Request $request) {
         $key = getenv('SMOOBU_KEY');
+        $storage = Storage::disk('invoice');
+        $path = md5(strtotime('now'));
 
         $invoices = [];
 
@@ -118,10 +121,46 @@ class InvoiceController extends Controller
             ];
 
             array_push($invoices, $data);
+
+            // Make PDF
+            if($booking['type'] !== 'cancellation') {
+                $pdf = PDF::loadView(
+                    'invoice-confirmation',
+                    [
+                        'invoice'   => $booking,
+                        'number'    => 1110 + $invoice->id,
+                        'address'   => $invoice->customer_address,
+                        'customer'  => $invoice->customer_name,
+                    ]
+                );
+
+                $path = $path . '/' . 1110 + $invoice->id . '.pdf';
+
+                $storage->put($path, $pdf->output());
+
+                // return $pdf->download(1110 + $invoice->id . '.pdf');
+            } else {
+                $pdf = PDF::loadView(
+                    'invoice-cancelled',
+                    [
+                        'invoice'   => $booking,
+                        'number'    => 1110 + $invoice->id,
+                        'address'   => $invoice->customer_address,
+                        'customer'  => $invoice->customer_name,
+                    ]
+                );
+
+                $path = $path . '/' . 1110 + $invoice->id . '.pdf';
+
+                $storage->put($path, $pdf->output());
+
+                // return $pdf->download(1110 + $invoice->id . '.pdf');
+            }
         }
 
         return response()->json([
-            'invoices' => $invoices
+            'invoices'  => $invoices,
+            'zip'       => ''
         ]);
     }
 
