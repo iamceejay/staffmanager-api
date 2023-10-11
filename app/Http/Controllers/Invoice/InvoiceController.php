@@ -81,7 +81,7 @@ class InvoiceController extends Controller
     public function csv(Request $request) {
         $key = getenv('SMOOBU_KEY');
         $storage = Storage::disk('public');
-        $path = 'invoices-temp/' . md5(strtotime('now'));
+        $path = 'invoices-temp/' . md5(strtotime('now')) . '/';
 
         if(!file_exists($path)) {
             mkdir($path, 0777, true);
@@ -138,7 +138,7 @@ class InvoiceController extends Controller
                     ]
                 );
 
-                $path = $path . '/' . 1110 + $invoice->id . '.pdf';
+                $path = $path . (1110 + $invoice->id) . '.pdf';
 
                 $storage->put($path, $pdf->output());
 
@@ -154,7 +154,7 @@ class InvoiceController extends Controller
                     ]
                 );
 
-                $path = $path . '/' . 1110 + $invoice->id . '.pdf';
+                $path = $path . (1110 + $invoice->id) . '.pdf';
 
                 $storage->put($path, $pdf->output());
 
