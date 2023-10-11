@@ -84,7 +84,7 @@ class InvoiceController extends Controller
         $storage = Storage::disk('public');
         $folder_name = md5(strtotime('now'));
         $path = 'invoices-temp/' . $folder_name . '/';
-        $zip_name = $path . 'invoices-temp/' . $folder_name . '.zip';
+        $zip_name = $path . $folder_name . '.zip';
 
         if(!file_exists($path)) {
             mkdir($path, 0777, true);
