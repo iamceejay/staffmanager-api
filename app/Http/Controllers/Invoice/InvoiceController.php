@@ -80,11 +80,11 @@ class InvoiceController extends Controller
 
     public function csv(Request $request) {
         $key = getenv('SMOOBU_KEY');
-        $storage = Storage::disk('local');
+        $storage = Storage::disk('public');
         $path = 'invoices-temp/' . md5(strtotime('now'));
 
         if(!file_exists($path)) {
-            Storage::makeDirectory($path, 0777, true, true);
+            mkdir($path, 0777, true);
         }
 
         $invoices = [];
@@ -164,7 +164,7 @@ class InvoiceController extends Controller
 
         return response()->json([
             'invoices'  => $invoices,
-            'zip'       => ''
+            'zip'       => $path
         ]);
     }
 
