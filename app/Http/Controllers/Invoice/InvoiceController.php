@@ -141,7 +141,7 @@ class InvoiceController extends Controller
                 );
 
                 $storage->put($path . (1110 + $invoice->id) . '.pdf', $pdf->output());
-                $zip->add($path . (1110 + $invoice->id) . '.pdf');
+                $zip->add(storage_path('app/public/') . $path . (1110 + $invoice->id) . '.pdf');
             } else {
                 $pdf = PDF::loadView(
                     'invoice-cancelled',
@@ -154,7 +154,7 @@ class InvoiceController extends Controller
                 );
 
                 $storage->put($path . (1110 + $invoice->id) . '.pdf', $pdf->output());
-                $zip->add($path . (1110 + $invoice->id) . '.pdf');
+                $zip->add(storage_path('app/public/') . $path . (1110 + $invoice->id) . '.pdf');
             }
         }
 
