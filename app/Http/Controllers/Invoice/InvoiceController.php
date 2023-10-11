@@ -80,8 +80,8 @@ class InvoiceController extends Controller
 
     public function csv(Request $request) {
         $key = getenv('SMOOBU_KEY');
-        $storage = Storage::disk('invoice');
-        $path = md5(strtotime('now'));
+        $storage = Storage::disk('local');
+        $path = 'invoices-temp/' . md5(strtotime('now'));
 
         $invoices = [];
 
