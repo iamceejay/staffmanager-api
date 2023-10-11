@@ -162,7 +162,7 @@ class InvoiceController extends Controller
 
         return response()->json([
             'invoices'  => $invoices,
-            'zip'       => $zip_name
+            'zip'       => $folder_name . '.zip'
         ]);
     }
 
