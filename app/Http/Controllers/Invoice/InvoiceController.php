@@ -138,9 +138,7 @@ class InvoiceController extends Controller
                     ]
                 );
 
-                $path = $path . (1110 + $invoice->id) . '.pdf';
-
-                $storage->put($path, $pdf->output());
+                $storage->put($path . (1110 + $invoice->id) . '.pdf', $pdf->output());
 
                 // return $pdf->download(1110 + $invoice->id . '.pdf');
             } else {
@@ -154,9 +152,7 @@ class InvoiceController extends Controller
                     ]
                 );
 
-                $path = $path . (1110 + $invoice->id) . '.pdf';
-
-                $storage->put($path, $pdf->output());
+                $storage->put($path . (1110 + $invoice->id) . '.pdf', $pdf->output());
 
                 // return $pdf->download(1110 + $invoice->id . '.pdf');
             }
