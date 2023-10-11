@@ -9,6 +9,7 @@ use App\Models\SmoobuJob;
 use Illuminate\Support\Facades\Http;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use Zip;
 
 class InvoiceController extends Controller
 {
@@ -81,13 +82,16 @@ class InvoiceController extends Controller
     public function csv(Request $request) {
         $key = getenv('SMOOBU_KEY');
         $storage = Storage::disk('public');
-        $path = 'invoices-temp/' . md5(strtotime('now')) . '/';
+        $folder_name = md5(strtotime('now'));
+        $path = 'invoices-temp/' . $folder_name . '/';
+        $zip_name = 'invoices-temp/' . $folder_name . '.zip';
 
         if(!file_exists($path)) {
             mkdir($path, 0777, true);
         }
 
         $invoices = [];
+        $zip = Zip::create($zip_name);
 
         $jobs = SmoobuJob::whereBetween('arrival', [$request->start, $request->end])->get();
 
@@ -137,8 +141,7 @@ class InvoiceController extends Controller
                 );
 
                 $storage->put($path . (1110 + $invoice->id) . '.pdf', $pdf->output());
-
-                // return $pdf->download(1110 + $invoice->id . '.pdf');
+                $zip->add($path . (1110 + $invoice->id) . '.pdf');
             } else {
                 $pdf = PDF::loadView(
                     'invoice-cancelled',
@@ -151,14 +154,15 @@ class InvoiceController extends Controller
                 );
 
                 $storage->put($path . (1110 + $invoice->id) . '.pdf', $pdf->output());
-
-                // return $pdf->download(1110 + $invoice->id . '.pdf');
+                $zip->add($path . (1110 + $invoice->id) . '.pdf');
             }
         }
 
+        $zip->close();
+
         return response()->json([
             'invoices'  => $invoices,
-            'zip'       => $path
+            'zip'       => response()->download($zip_name)
         ]);
     }
 
