@@ -89,9 +89,7 @@ class InvoiceController extends Controller
 
         $invoices = [];
 
-        $jobs = SmoobuJob::whereYear('arrival', $request->year)
-                    ->whereMonth('arrival', $request->month)
-                    ->get();
+        $jobs = SmoobuJob::whereBetween('arrival', [$request->start, $request->end])->get();
 
         foreach($jobs as $job) {
             $invoice = Invoice::where('smoobu_id', $job->smoobu_id)->first();
