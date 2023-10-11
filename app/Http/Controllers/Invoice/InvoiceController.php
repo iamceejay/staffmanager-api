@@ -9,7 +9,6 @@ use App\Models\SmoobuJob;
 use Illuminate\Support\Facades\Http;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\File;
 
 class InvoiceController extends Controller
 {
@@ -85,7 +84,7 @@ class InvoiceController extends Controller
         $path = 'invoices-temp/' . md5(strtotime('now'));
 
         if(!file_exists($path)) {
-            File::makeDirectory($path, 0777, true, true);
+            Storage::makeDirectory($path, 0777, true, true);
         }
 
         $invoices = [];
