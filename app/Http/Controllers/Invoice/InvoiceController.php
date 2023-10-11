@@ -84,7 +84,7 @@ class InvoiceController extends Controller
         $storage = Storage::disk('local');
         $path = 'invoices-temp/' . md5(strtotime('now'));
 
-        if(!File::exists($path)) {
+        if(!file_exists($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
 
