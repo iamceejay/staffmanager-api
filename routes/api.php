@@ -69,4 +69,5 @@ Route::group([
 Route::prefix('invoice')->group(function() {
     Route::get('/download', [InvoiceController::class, 'download']);
     Route::get('/csv', [InvoiceController::class, 'csv']);
+    Route::get('/download-zip', [InvoiceController::class, 'downloadZip']);
 });

@@ -193,4 +193,8 @@ class InvoiceController extends Controller
             ], 500);
         }
     }
+
+    public function downloadZip(Request $request) {
+        return response()->download(storage_path('app/public/') . 'invoices-temp/' . $request->file);
+    }
 }
