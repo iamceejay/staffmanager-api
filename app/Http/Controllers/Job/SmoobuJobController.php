@@ -309,6 +309,9 @@ class SmoobuJobController extends Controller
         try {
             DB::beginTransaction();
 
+            Log::info($request->data);
+            Log::info($request['data']);
+
             if($request->action === 'newReservation') {
                 $resp = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
