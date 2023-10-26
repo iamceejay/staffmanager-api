@@ -310,15 +310,15 @@ class SmoobuJobController extends Controller
         try {
             DB::beginTransaction();
 
-            if(in_array($request->data['apartment']['id'], $exclude_apartments)) {
-                return false;
-            }
-
             if($request->action === 'newReservation') {
                 $resp = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
                     'Cache-Control' => 'no-cache'
                 ])->get('https://login.smoobu.com/api/reservations/' . $request->data['id']);
+
+                if(in_array($resp['apartment']['id'], $exclude_apartments)) {
+                    return false;
+                }
 
                 $location = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
