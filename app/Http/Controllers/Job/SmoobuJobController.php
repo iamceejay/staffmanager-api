@@ -341,27 +341,29 @@ class SmoobuJobController extends Controller
                 ]);
 
                 // Invoice
-                $invoice_insert = Invoice::create([
-                    'smoobu_id'     => $request->data['id'],
-                    'customer_name' => $request->data['guest-name'],
-                    'arrival'       => date('Y.m.d', strtotime($request->data['arrival'])),
-                    'departure'     => date('Y.m.d', strtotime($request->data['departure'])),
-                ]);
+                // $invoice_insert = Invoice::create([
+                //     'smoobu_id'     => $request->data['id'],
+                //     'customer_name' => $request->data['guest-name'],
+                //     'arrival'       => date('Y.m.d', strtotime($request->data['arrival'])),
+                //     'departure'     => date('Y.m.d', strtotime($request->data['departure'])),
+                // ]);
 
-                $invoice = $request->data;
-                $pdf = PDF::loadView(
-                    'invoice-confirmation',
-                    [
-                        'invoice'   => $invoice,
-                        'number'    => 1110 + $invoice_insert->id,
-                    ]
-                );
+                // $invoice = $request->data;
+                // $pdf = PDF::loadView(
+                //     'invoice-confirmation',
+                //     [
+                //         'invoice'   => $invoice,
+                //         'number'    => 1110 + $invoice_insert->id,
+                //         'address'   => '',
+                //         'customer'  => $request->data['guest-name']
+                //     ]
+                // );
 
-                Mail::send('mail.confirmation', [], function ($message) use ($pdf, $invoice_insert) {
-                    $message->to('test@email.com')
-                        ->subject('Noas Invoice')
-                        ->attachData($pdf->output(), 1110 + $invoice_insert->id . '.pdf');
-                });
+                // Mail::send('mail.confirmation', [], function ($message) use ($pdf, $invoice_insert) {
+                //     $message->to('test@email.com')
+                //         ->subject('Noas Invoice')
+                //         ->attachData($pdf->output(), 1110 + $invoice_insert->id . '.pdf');
+                // });
             }
 
             if($request->action === 'cancelReservation') {
@@ -380,23 +382,24 @@ class SmoobuJobController extends Controller
                 }
 
                 // Invoice
-                $invoice_data = Invoice::where('smoobu_id', $request->data['id'])->first();
+                // $invoice_data = Invoice::where('smoobu_id', $request->data['id'])->first();
 
-                $invoice = $request->data;
-                $pdf = PDF::loadView(
-                    'invoice-cancelled',
-                    [
-                        'invoice'   => $invoice,
-                        'number'    => 1110 + $invoice_data->id,
-                        'address'   => $invoice_data->customer_address
-                    ]
-                );
+                // $invoice = $request->data;
+                // $pdf = PDF::loadView(
+                //     'invoice-cancelled',
+                //     [
+                //         'invoice'   => $invoice,
+                //         'number'    => 1110 + $invoice_data->id,
+                //         'address'   => $invoice_data->customer_address,
+                //         'customer'  => $request->data['guest-name']
+                //     ]
+                // );
 
-                Mail::send('mail.cancelled', [], function ($message) use ($pdf, $invoice_data) {
-                    $message->to('test@email.com')
-                        ->subject('Noas Invoice Cancelled')
-                        ->attachData($pdf->output(), 1110 + $invoice_data->id . '.pdf');
-                });
+                // Mail::send('mail.cancelled', [], function ($message) use ($pdf, $invoice_data) {
+                //     $message->to('test@email.com')
+                //         ->subject('Noas Invoice Cancelled')
+                //         ->attachData($pdf->output(), 1110 + $invoice_data->id . '.pdf');
+                // });
             }
 
             if($request->action === 'updateReservation') {
