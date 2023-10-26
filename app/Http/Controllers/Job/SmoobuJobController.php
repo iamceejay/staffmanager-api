@@ -305,9 +305,14 @@ class SmoobuJobController extends Controller
         Log::info($request);
         
         $key = getenv('SMOOBU_KEY');
+        $exclude_apartments = [478239, 123946];
 
         try {
             DB::beginTransaction();
+
+            if(in_array($request->data['apartment']['id'], $exclude_apartments)) {
+                return false;
+            }
 
             if($request->action === 'newReservation') {
                 $resp = Http::acceptJson()->withHeaders([
