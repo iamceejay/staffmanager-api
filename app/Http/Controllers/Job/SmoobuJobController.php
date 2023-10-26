@@ -337,7 +337,7 @@ class SmoobuJobController extends Controller
                     'description'       => $request->data['notice'],
                     'status'            => 'available',
                     'smoobu_created_at' => $request->data['created-at'],
-                    'arrival'           => $resp->data['arrival']
+                    'arrival'           => $resp['arrival']
                 ]);
 
                 // Invoice
@@ -429,6 +429,7 @@ class SmoobuJobController extends Controller
                     'end'           => $request->data['departure'] . ' ' . (isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00'),
                     'location'      => $location,
                     'description'   => $request->data['notice'],
+                    'arrival'       => $resp['arrival']
                 ]);
 
                 if($job->staff_id !== NULL) {
