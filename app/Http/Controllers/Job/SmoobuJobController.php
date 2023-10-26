@@ -309,14 +309,11 @@ class SmoobuJobController extends Controller
         try {
             DB::beginTransaction();
 
-            Log::info($request->data);
-            Log::info($request['data']);
-
             if($request->action === 'newReservation') {
                 $resp = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
                     'Cache-Control' => 'no-cache'
-                ])->get('https://login.smoobu.com/api/reservations/' . $request['data']['id']);
+                ])->get('https://login.smoobu.com/api/reservations/' . $request->data['id']);
 
                 $location = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
@@ -327,31 +324,31 @@ class SmoobuJobController extends Controller
                     $location = $location['location'];
                     $location = ltrim(implode(' ', $location));
                 } else {
-                    $location = $request['data']['apartment']['name'];
+                    $location = $request->data['apartment']['name'];
                 }
 
                 SmoobuJob::create([
                     'uuid'              => Str::uuid(),
-                    'smoobu_id'         => $request['data']['id'],
-                    'title'             => $request['data']['apartment']['name'],
-                    'start'             => $request['data']['departure'] . ' ' . (isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00'),
-                    'end'               => $request['data']['departure'] . ' ' . (isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00'),
+                    'smoobu_id'         => $request->data['id'],
+                    'title'             => $request->data['apartment']['name'],
+                    'start'             => $request->data['departure'] . ' ' . (isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00'),
+                    'end'               => $request->data['departure'] . ' ' . (isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00'),
                     'location'          => $location,
-                    'description'       => $request['data']['notice'],
+                    'description'       => $request->data['notice'],
                     'status'            => 'available',
-                    'smoobu_created_at' => $request['data']['created-at'],
+                    'smoobu_created_at' => $request->data['created-at'],
                     'arrival'           => $resp['data']['arrival']
                 ]);
 
                 // Invoice
                 $invoice_insert = Invoice::create([
-                    'smoobu_id'     => $request['data']['id'],
-                    'customer_name' => $request['data']['guest-name'],
-                    'arrival'       => date('Y.m.d', strtotime($request['data']['arrival'])),
-                    'departure'     => date('Y.m.d', strtotime($request['data']['departure'])),
+                    'smoobu_id'     => $request->data['id'],
+                    'customer_name' => $request->data['guest-name'],
+                    'arrival'       => date('Y.m.d', strtotime($request->data['arrival'])),
+                    'departure'     => date('Y.m.d', strtotime($request->data['departure'])),
                 ]);
 
-                $invoice = $request['data'];
+                $invoice = $request->data;
                 $pdf = PDF::loadView(
                     'invoice-confirmation',
                     [
@@ -368,9 +365,9 @@ class SmoobuJobController extends Controller
             }
 
             if($request->action === 'cancelReservation') {
-                $job = SmoobuJob::with('user')->where('smoobu_id', $request['data']['id'])->first();
+                $job = SmoobuJob::with('user')->where('smoobu_id', $request->data['id'])->first();
 
-                $update = SmoobuJob::where('smoobu_id', $request['data']['id'])->update([
+                $update = SmoobuJob::where('smoobu_id', $request->data['id'])->update([
                     'status'    => 'cancelled',
                     'staff_id'  => NULL
                 ]);
@@ -383,9 +380,9 @@ class SmoobuJobController extends Controller
                 }
 
                 // Invoice
-                $invoice_data = Invoice::where('smoobu_id', $request['data']['id'])->first();
+                $invoice_data = Invoice::where('smoobu_id', $request->data['id'])->first();
 
-                $invoice = $request['data'];
+                $invoice = $request->data;
                 $pdf = PDF::loadView(
                     'invoice-cancelled',
                     [
@@ -403,7 +400,7 @@ class SmoobuJobController extends Controller
             }
 
             if($request->action === 'updateReservation') {
-                $job = SmoobuJob::with('user')->where('smoobu_id', $request['data']['id'])->first();
+                $job = SmoobuJob::with('user')->where('smoobu_id', $request->data['id'])->first();
 
                 if(!$job) {
                     return false;
@@ -412,7 +409,7 @@ class SmoobuJobController extends Controller
                 $resp = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
                     'Cache-Control' => 'no-cache'
-                ])->get('https://login.smoobu.com/api/reservations/' . $request['data']['id']);
+                ])->get('https://login.smoobu.com/api/reservations/' . $request->data['id']);
 
                 $location = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
@@ -423,15 +420,15 @@ class SmoobuJobController extends Controller
                     $location = $location['location'];
                     $location = ltrim(implode(' ', $location));
                 } else {
-                    $location = $request['data']['apartment']['name'];
+                    $location = $request->data['apartment']['name'];
                 }
 
-                $update = SmoobuJob::where('smoobu_id', $request['data']['id'])->update([
-                    'title'         => $request['data']['apartment']['name'],
-                    'start'         => $request['data']['departure'] . ' ' . (isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00'),
-                    'end'           => $request['data']['departure'] . ' ' . (isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00'),
+                $update = SmoobuJob::where('smoobu_id', $request->data['id'])->update([
+                    'title'         => $request->data['apartment']['name'],
+                    'start'         => $request->data['departure'] . ' ' . (isset($resp['check-out']) ? $resp['check-out'] . ':00' : '11:00:00'),
+                    'end'           => $request->data['departure'] . ' ' . (isset($resp['check-in']) ? $resp['check-in'] . ':00' : '15:00:00'),
                     'location'      => $location,
-                    'description'   => $request['data']['notice'],
+                    'description'   => $request->data['notice'],
                 ]);
 
                 if($job->staff_id !== NULL) {
