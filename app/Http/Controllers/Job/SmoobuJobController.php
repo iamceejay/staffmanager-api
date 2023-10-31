@@ -345,13 +345,19 @@ class SmoobuJobController extends Controller
                     'arrival'           => $resp['arrival']
                 ]);
 
-                // Invoice
-                $invoice_insert = Invoice::create([
-                    'smoobu_id'     => $request->data['id'],
-                    'customer_name' => $request->data['guest-name'],
-                    'arrival'       => date('Y.m.d', strtotime($request->data['arrival'])),
-                    'departure'     => date('Y.m.d', strtotime($request->data['departure'])),
-                ]);
+                if(in_array($resp['apartment']['id'], $exclude_apartments)) {
+                    return false;
+                }
+
+                if($resp['channel']['id'] !== 61551) {
+                    // Invoice
+                    $invoice_insert = Invoice::create([
+                        'smoobu_id'     => $request->data['id'],
+                        'customer_name' => $request->data['guest-name'],
+                        'arrival'       => date('Y.m.d', strtotime($request->data['arrival'])),
+                        'departure'     => date('Y.m.d', strtotime($request->data['departure'])),
+                    ]);
+                }
 
                 // $invoice = $request->data;
                 // $pdf = PDF::loadView(
