@@ -107,17 +107,27 @@ class InvoiceController extends Controller
             $net = ($booking['price'] / 110) * 100;
             $percentage = $booking['price'] - $net;
 
+            $konto = '';
+            
+            if($booking['apartment']['id'] == 62521) {
+                $konto = '200032';
+            }
+
+            if($booking['apartment']['id'] == 62522) {
+                $konto = '200031';
+            }
+
             $percentage = number_format($percentage, 2, ",", ".");
             $net = number_format($net, 2, ",", ".");
 
             $data = [
                 'satzart'       => '0',
-                'konto'         => 1110 + $invoice->id,
-                'gkonto'        => '',
-                'belegnr'       => '',
+                'konto'         => $konto,
+                'gkonto'        => '4030',
+                'belegnr'       => 1110 + $invoice->id,
                 'belegdatum'    => $invoice->arrival,
-                'buchsymbol'    => '',
-                'buchcode'      => '',
+                'buchsymbol'    => 'AR',
+                'buchcode'      => '1',
                 'prozent'       => '10',
                 'steuercode'    => '1',
                 'betrag'        => $total,
