@@ -47,6 +47,10 @@ class GenerateInvoices extends Command
                 'Cache-Control' => 'no-cache'
             ])->get('https://login.smoobu.com/api/reservations/' . $job->smoobu_id);
 
+            if($booking['channel']['id'] === 61551) {
+                echo "Skipping Direct Booking: $job->smoobu_id \r\n";
+            }
+
             echo "Generating invoice for $job->smoobu_id \r\n";
 
             Invoice::create([
