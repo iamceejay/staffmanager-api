@@ -306,6 +306,7 @@ class SmoobuJobController extends Controller
         
         $key = getenv('SMOOBU_KEY');
         $exclude_apartments = [478239, 123946];
+        $is_excluded = false;
 
         try {
             DB::beginTransaction();
@@ -317,7 +318,7 @@ class SmoobuJobController extends Controller
                 ])->get('https://login.smoobu.com/api/reservations/' . $request->data['id']);
 
                 if(in_array($resp['apartment']['id'], $exclude_apartments)) {
-                    return false;
+                    $is_excluded = true;
                 }
 
                 $location = Http::acceptJson()->withHeaders([
@@ -342,7 +343,8 @@ class SmoobuJobController extends Controller
                     'description'       => $request->data['notice'],
                     'status'            => 'available',
                     'smoobu_created_at' => $request->data['created-at'],
-                    'arrival'           => $resp['arrival']
+                    'arrival'           => $resp['arrival'],
+                    'deleted_at'        => $is_excluded ? date('Y-m-d H:i:s') : NULL
                 ]);
 
                 if($resp['channel']['id'] !== 61551) {
