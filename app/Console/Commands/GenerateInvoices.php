@@ -38,6 +38,7 @@ class GenerateInvoices extends Command
             $invoice = Invoice::where('smoobu_id', $job->smoobu_id)->first();
 
             if($invoice) {
+                echo "Skipping $job->smoobu_id \r\n";
                 continue;
             }
 
@@ -45,6 +46,8 @@ class GenerateInvoices extends Command
                 'Api-Key'       => $key,
                 'Cache-Control' => 'no-cache'
             ])->get('https://login.smoobu.com/api/reservations/' . $job->smoobu_id);
+
+            echo "Generating invoice for $job->smoobu_id \r\n";
 
             Invoice::create([
                 'smoobu_id'     => $booking['id'],
