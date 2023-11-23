@@ -345,10 +345,6 @@ class SmoobuJobController extends Controller
                     'arrival'           => $resp['arrival']
                 ]);
 
-                if(in_array($resp['apartment']['id'], $exclude_apartments)) {
-                    return false;
-                }
-
                 if($resp['channel']['id'] !== 61551) {
                     // Invoice
                     $invoice_insert = Invoice::create([
