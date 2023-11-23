@@ -30,7 +30,7 @@ class GenerateInvoices extends Command
     {
         $key = getenv('SMOOBU_KEY');
 
-        $jobs = SmoobuJob::orderBy('arrival')->get();
+        $jobs = SmoobuJob::withTrashed()->orderBy('arrival')->get();
         
         Invoice::truncate();
 
