@@ -32,7 +32,7 @@ class GenerateInvoices extends Command
 
         $jobs = SmoobuJob::orderBy('arrival')->get();
         
-        // Invoice::truncate();
+        Invoice::truncate();
 
         foreach($jobs as $job) {
             $invoice = Invoice::where('smoobu_id', $job->smoobu_id)->first();
