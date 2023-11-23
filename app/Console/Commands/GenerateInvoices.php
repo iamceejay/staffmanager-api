@@ -32,9 +32,15 @@ class GenerateInvoices extends Command
 
         $jobs = SmoobuJob::orderBy('arrival')->get();
         
-        Invoice::truncate();
+        // Invoice::truncate();
 
         foreach($jobs as $job) {
+            $invoice = Invoice::where('smoobu_id', $job->smoobu_id)->first();
+
+            if($invoice) {
+                continue;
+            }
+
             $booking = Http::acceptJson()->withHeaders([
                 'Api-Key'       => $key,
                 'Cache-Control' => 'no-cache'
