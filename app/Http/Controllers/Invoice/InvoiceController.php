@@ -103,6 +103,10 @@ class InvoiceController extends Controller
                 'Cache-Control' => 'no-cache'
             ])->get('https://login.smoobu.com/api/reservations/' . $invoice->smoobu_id);
 
+            if(isset($booking['status']) && ($booking['status'] == 404 || $booking['status'] == 401)) {
+                continue;
+            }
+
             $total = number_format($booking['price'], 2, ",", ".");
             $net = ($booking['price'] / 110) * 100;
             $percentage = $booking['price'] - $net;
