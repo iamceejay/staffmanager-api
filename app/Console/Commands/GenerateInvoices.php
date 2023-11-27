@@ -47,6 +47,10 @@ class GenerateInvoices extends Command
                 'Cache-Control' => 'no-cache'
             ])->get('https://login.smoobu.com/api/reservations/' . $job->smoobu_id);
 
+            if(isset($booking['status']) && ($booking['status'] == 404 || $booking['status'] == 401)) {
+                continue;
+            }
+
             if($booking['channel']['id'] === 61551) {
                 echo "Skipping Direct Booking: $job->smoobu_id \r\n";
             }
