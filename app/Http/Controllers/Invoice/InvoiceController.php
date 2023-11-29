@@ -14,7 +14,7 @@ use Zip;
 class InvoiceController extends Controller
 {
     public function index(Request $request) {
-        $invoices = SmoobuJob::with('invoices');
+        $invoices = SmoobuJob::has('invoices');
 
         if($request->keyword) {
             $invoices = $invoices->where('smoobu_id', 'LIKE', '%' . $request->keyword . '%')
