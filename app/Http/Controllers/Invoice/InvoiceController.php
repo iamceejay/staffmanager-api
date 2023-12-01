@@ -32,7 +32,7 @@ class InvoiceController extends Controller
                         });
         }
 
-        $invoices = $invoices->has('invoices')->orderBy('arrival')->paginate(10);
+        $invoices = $invoices->has('invoices')->orderBy('smoobu_created_at')->paginate(10);
 
         return response()->json([
             'message'   => 'Listing invoices',
@@ -94,7 +94,7 @@ class InvoiceController extends Controller
         $zip = Zip::create($zip_name);
 
         $jobs = SmoobuJob::withTrashed()
-            ->whereBetween('smoobu_created_at', [$request->start . ' 00:00:00', $request->end . ' 23:59:59'])
+            ->whereBetween('smoobu_created_at', [$request->start, $request->end])
             ->get();
 
         foreach($jobs as $job) {
