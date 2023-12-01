@@ -18,6 +18,7 @@ class InvoiceController extends Controller
 
         if($request->keyword) {
             $invoices = $invoices->where('smoobu_id', 'LIKE', '%' . $request->keyword . '%')
+                        ->orWhere('smoobu_created_at', 'LIKE', '%' . $request->keyword . '%')
                         ->orWhereHas('invoices', function($query) use($request) {
                             if(is_numeric($request->keyword)) {
                                 $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
