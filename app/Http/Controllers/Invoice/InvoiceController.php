@@ -180,7 +180,9 @@ class InvoiceController extends Controller
 
         $zip->close();
 
-        $invoices = collect($invoices)->sortBy('belegnr')->all();
+        usort($invoices, function($a, $b) {
+            return $a['belegnr'] - $b['belegnr'];
+        });
 
         return response()->json([
             'invoices'  => $invoices,
