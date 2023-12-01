@@ -95,7 +95,6 @@ class InvoiceController extends Controller
 
         $jobs = SmoobuJob::withTrashed()
             ->whereBetween('arrival', [$request->start, $request->end])
-            ->orderBy('smoobu_id', 'ASC')
             ->get();
 
         foreach($jobs as $job) {
@@ -180,6 +179,8 @@ class InvoiceController extends Controller
         }
 
         $zip->close();
+
+        $invoices = collect($invoices)->sortBy('belegnr')->toArray();
 
         return response()->json([
             'invoices'  => $invoices,
