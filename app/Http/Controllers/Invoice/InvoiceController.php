@@ -94,7 +94,7 @@ class InvoiceController extends Controller
         $zip = Zip::create($zip_name);
 
         $jobs = SmoobuJob::withTrashed()
-            ->whereBetween('arrival', [$request->start, $request->end])
+            ->whereBetween('smoobu_created_at', [$request->start, $request->end])
             ->get();
 
         foreach($jobs as $job) {
