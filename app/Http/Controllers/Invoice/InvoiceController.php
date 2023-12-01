@@ -93,7 +93,10 @@ class InvoiceController extends Controller
         $invoices = [];
         $zip = Zip::create($zip_name);
 
-        $jobs = SmoobuJob::withTrashed()->whereBetween('arrival', [$request->start, $request->end])->get();
+        $jobs = SmoobuJob::withTrashed()
+            ->whereBetween('arrival', [$request->start, $request->end])
+            ->orderBy('smoobu_id', 'ASC')
+            ->get();
 
         foreach($jobs as $job) {
             $invoice = Invoice::where('smoobu_id', $job->smoobu_id)->first();
