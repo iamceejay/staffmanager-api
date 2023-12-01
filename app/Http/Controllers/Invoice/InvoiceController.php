@@ -180,7 +180,7 @@ class InvoiceController extends Controller
 
         $zip->close();
 
-        $invoices = collect($invoices)->sortBy('belegnr')->toArray();
+        // $invoices = collect($invoices)->sortBy('belegnr')->toArray();
 
         return response()->json([
             'invoices'  => $invoices,
