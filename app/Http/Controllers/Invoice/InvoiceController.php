@@ -97,7 +97,6 @@ class InvoiceController extends Controller
             ->with('invoices')
             ->whereBetween('arrival', [$request->start, $request->end])
             ->has('invoices')
-            ->orderBy('invoices.arrival')
             ->get();
 
         foreach($jobs as $job) {
