@@ -14,11 +14,11 @@ use Zip;
 class InvoiceController extends Controller
 {
     public function index(Request $request) {
-        $invoices = SmoobuJob::with('invoices');
+        $invoices = Invoice::with('job');
 
         if($request->keyword) {
             $invoices = $invoices->where('smoobu_id', 'LIKE', '%' . $request->keyword . '%')
-                        ->orWhereHas('invoices', function($query) use($request) {
+                        ->orWhereHas(function($query) use($request) {
                             if(is_numeric($request->keyword)) {
                                 $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
                                     ->orWhere('departure', 'LIKE', '%' . $request->keyword . '%')
@@ -32,7 +32,7 @@ class InvoiceController extends Controller
                         });
         }
 
-        $invoices = $invoices->orderBy('arrival')->paginate(10);
+        $invoices = $invoices->orderBy('jobs.arrival')->paginate(10);
 
         return response()->json([
             'message'   => 'Listing invoices',
