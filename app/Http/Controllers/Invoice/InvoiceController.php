@@ -135,7 +135,7 @@ class InvoiceController extends Controller
                 'konto'         => $konto,
                 'gkonto'        => '4030',
                 'belegnr'       => 1110 + $invoice->id,
-                'belegdatum'    => date('Y.m.d', $job->smoobu_created_at),
+                'belegdatum'    => $job->smoobu_created_at,
                 'buchsymbol'    => 'AR',
                 'buchcode'      => '1',
                 'prozent'       => '10',

@@ -25,6 +25,10 @@ class SmoobuJob extends Model
         'arrival'
     ];
 
+    protected $casts = [
+        'smoobu_created_at' => 'date:Y.m.d'
+    ];
+
     public function user() {
         return $this->belongsTo(User::class, 'staff_id');
     }
