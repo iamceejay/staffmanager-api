@@ -165,7 +165,7 @@ class SmoobuJobController extends Controller
             ]);
 
             if($job->staff_id) {
-                $message = 'Entschuldige, dein Dienst am ' . $job->start . ' im Apartment ' . $job->title . ' wurde storniert.';
+                $message = 'Entschuldige, dein Dienst am ' . $job->start . ' im Apartment ' . $job->title . '.';
                 $recipient = $job->user->phone_number;
 
                 $send_message = SendMessageJob::dispatch($recipient, $message);
@@ -214,9 +214,9 @@ class SmoobuJobController extends Controller
 
             if($job->staff_id) {
                 if($is_assignment) {
-                    $message = 'Job ' . $job->title . ' - Du, wurdest soeben für den Dienst am ' . $job->start . ' eingetragen.';
+                    $message = 'Job ' . $job->title . ' - Dein Dienst hat sich geändert für ' . $job->start . ' Bitte überprüfe ob das so passt.';
                 } else {
-                    $message = 'Job ' . $job->title . ' - Has been updated. Login to Staffmanager account.';
+                    $message = 'Job ' . $job->title . ' hat sich geändert. Logge dich im Staffmanager ein um zu überprüfen, ob der Termin so für dich passt.';
                 }
 
                 $recipient = $job->user->phone_number;
@@ -447,7 +447,7 @@ class SmoobuJobController extends Controller
                 ]);
 
                 if($job->staff_id !== NULL) {
-                    $message = 'Job ' . $job->title . ' has been updated. Login to Staffmanager account.';
+                    $message = 'Job ' . $job->title . ' hat sich geändert. Logge dich im Staffmanager ein um zu überprüfen, ob der Termin so für dich passt.';
 
                     $recipient = $job->user->phone_number;
 

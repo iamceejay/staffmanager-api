@@ -41,7 +41,7 @@ class SmoobuJobReminder extends Command
                 $job_start = Carbon::parse($job->start);
                 $job_start = $job_start->format('H:i');
 
-                $message = 'Job ' . $job->title . ' - is schedule today on ' . $job_start;
+                $message = 'Kurze Erinnerung für deinen Dienst heute um ' . $job_start . ' im Apartment ' . $job->title;
                 $recipient = $job->user->phone_number;
 
                 $send_message = SendMessageJob::dispatch($recipient, $message);
