@@ -343,8 +343,7 @@ class SmoobuJobController extends Controller
                     'description'       => $request->data['notice'],
                     'status'            => 'available',
                     'smoobu_created_at' => $request->data['created-at'],
-                    'arrival'           => $resp['arrival'],
-                    'deleted_at'        => $is_excluded ? date('Y-m-d H:i:s') : NULL
+                    'arrival'           => $resp['arrival']
                 ]);
 
                 if($resp['channel']['id'] !== 61551) {
@@ -357,6 +356,9 @@ class SmoobuJobController extends Controller
                     ]);
                 }
 
+                if($is_excluded) {
+                    SmoobuJob::where('smoobu_id', $request->data['id'])->delete();
+                }
                 // $invoice = $request->data;
                 // $pdf = PDF::loadView(
                 //     'invoice-confirmation',
