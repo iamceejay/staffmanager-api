@@ -53,6 +53,8 @@ class GenerateInvoices extends Command
 
             if($booking['channel']['id'] === 61551) {
                 echo "Skipping Direct Booking: $job->smoobu_id \r\n";
+
+                continue;
             }
 
             echo "Generating invoice for $job->smoobu_id \r\n";
