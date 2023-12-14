@@ -144,7 +144,8 @@ class InvoiceController extends Controller
                 'betrag'        => $total,
                 'steuer'        => $percentage ,
                 'text'          => $booking['apartment']['name'],
-                'dokument'      => (1110 + $invoice->id) . '.pdf'
+                'dokument'      => (1110 + $invoice->id) . '.pdf',
+                'channel'       => $booking['channel']['name']
             ];
 
             array_push($invoices, $data);
