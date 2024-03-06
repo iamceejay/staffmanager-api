@@ -32,6 +32,8 @@ class RemoveBlockedBookings extends Command
         $jobs = SmoobuJob::get();
 
         foreach($jobs as $job) {
+            echo 'Smoobu ID: ' . $job->smoobu_id;
+            
             $booking = Http::acceptJson()->withHeaders([
                 'Api-Key'       => $key,
                 'Cache-Control' => 'no-cache'
