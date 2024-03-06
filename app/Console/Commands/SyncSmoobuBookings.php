@@ -32,10 +32,11 @@ class SyncSmoobuBookings extends Command
         $key = getenv('SMOOBU_KEY');
 
         $bookings = Http::acceptJson()->withQueryParameters([
-            'pageSize'      => $this->argument('size'),
-            'page'          => $this->argument('page'),
-            'from'   => $this->argument('from'),
-            'to'     => $this->argument('to')
+            'pageSize'          => $this->argument('size'),
+            'page'              => $this->argument('page'),
+            'from'              => $this->argument('from'),
+            'to'                => $this->argument('to'),
+            'excludeBlocked'    => true,
         ])->withHeaders([
             'Api-Key'       => $key,
             'Cache-Control' => 'no-cache'

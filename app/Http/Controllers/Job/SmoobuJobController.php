@@ -321,6 +321,10 @@ class SmoobuJobController extends Controller
                     $is_excluded = true;
                 }
 
+                if($resp['is-blocked-booking']) {
+                    return false;
+                }
+
                 $location = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
                     'Cache-Control' => 'no-cache'

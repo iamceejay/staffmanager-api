@@ -30,6 +30,13 @@ class SmoobuJobReminder extends Command
      */
     public function handle()
     {
+        // $message = 'staffmanager job reminder from terminal';
+        // $recipient = '+4366475019284 ';
+
+        // $send_message = SendMessageJob::dispatch($recipient, $message);
+
+        // return false;
+
         $jobs = SmoobuJob::with('user')
                 ->where('status', 'taken')
                 ->whereNotNull('staff_id')
