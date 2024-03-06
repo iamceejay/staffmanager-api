@@ -39,7 +39,9 @@ class RemoveBlockedBookings extends Command
                 'Cache-Control' => 'no-cache'
             ])->get('https://login.smoobu.com/api/reservations/' . $job->smoobu_id);
 
-            var_dump($booking);
+            if($booking->getStatusCode() === 404) {
+                continue;
+            }
 
             if($booking['is-blocked-booking']) {
                 SmoobuJob::where('smoobu_id', $job->smoobu_id)->delete();
