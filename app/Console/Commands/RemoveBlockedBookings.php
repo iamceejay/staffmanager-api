@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\SmoobuJob;
+use Illuminate\Support\Facades\Http;
 
 class RemoveBlockedBookings extends Command
 {
