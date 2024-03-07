@@ -32,7 +32,7 @@ class RemoveBlockedBookings extends Command
         $jobs = SmoobuJob::get();
 
         foreach($jobs as $job) {
-            echo 'Smoobu ID: ' . $job->smoobu_id;
+            echo "Smoobu ID:  $job->smoobu_id \r\n";
 
             $booking = Http::acceptJson()->withHeaders([
                 'Api-Key'       => $key,
@@ -45,7 +45,7 @@ class RemoveBlockedBookings extends Command
 
             if($booking['is-blocked-booking']) {
                 SmoobuJob::where('smoobu_id', $job->smoobu_id)->delete();
-                echo 'Deleted Job with smoobu_id ' . $job->smoobu_id;
+                echo "Deleted Job with smoobu_id $job->smoobu_id \r\n";
             }
         }
     }
