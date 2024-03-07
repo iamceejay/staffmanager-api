@@ -47,7 +47,12 @@ class SmoobuJobReminder extends Command
         foreach($users as $user) {
             $message = 'staffmanager test message.';
 
+            echo "Sending to $user->first_name $user->last_name \r\n";
+
             $send_message = SendMessageJob::dispatch($user->phone_number, $message);
+
+            echo "MESSAGE SENT! \r\n";
+            echo "\r\n";
         }
 
         return false;
