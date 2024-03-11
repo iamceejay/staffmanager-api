@@ -32,15 +32,13 @@ class SmoobuJobReminder extends Command
     {
         $users = User::get();
 
-        $message = 'staffmanager test message.';
-        $recipient = '+6763512523';
+        $message = 'staffmanager test message. Datetime ' . date('m/d/Y h:i:s a', time());
+        $recipient = '+4366475019284';
 
         $send_message = SendMessageJob::dispatch($recipient, $message);
 
-        return false;
-
         foreach($users as $user) {
-            $message = 'staffmanager test message.';
+            $message = 'staffmanager test message. Datetime ' . date('m/d/Y h:i:s a', time());
 
             echo "Sending to $user->first_name $user->last_name \r\n";
 
