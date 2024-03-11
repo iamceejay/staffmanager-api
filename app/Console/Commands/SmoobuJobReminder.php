@@ -33,7 +33,7 @@ class SmoobuJobReminder extends Command
         $users = User::get();
 
         $message = 'staffmanager test message.';
-        $recipient = '+6763512523 ';
+        $recipient = '+6763512523';
 
         $send_message = SendMessageJob::dispatch($recipient, $message);
 
