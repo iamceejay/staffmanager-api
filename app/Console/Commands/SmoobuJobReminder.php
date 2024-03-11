@@ -30,25 +30,25 @@ class SmoobuJobReminder extends Command
      */
     public function handle()
     {
-        // $users = User::get();
+        $users = User::get();
 
-        // $message = 'staffmanager test message.';
-        // $recipient = '+4366475019284 ';
+        $message = 'staffmanager test message.';
+        $recipient = '+4366475019284 ';
 
-        // $send_message = SendMessageJob::dispatch($recipient, $message);
+        $send_message = SendMessageJob::dispatch($recipient, $message);
 
-        // foreach($users as $user) {
-        //     $message = 'staffmanager test message.';
+        foreach($users as $user) {
+            $message = 'staffmanager test message.';
 
-        //     echo "Sending to $user->first_name $user->last_name \r\n";
+            echo "Sending to $user->first_name $user->last_name \r\n";
 
-        //     $send_message = SendMessageJob::dispatch($user->phone_number, $message);
+            $send_message = SendMessageJob::dispatch($user->phone_number, $message);
 
-        //     echo "MESSAGE SENT! \r\n";
-        //     echo "\r\n";
-        // }
+            echo "MESSAGE SENT! \r\n";
+            echo "\r\n";
+        }
 
-        // return false;
+        return false;
 
         $jobs = SmoobuJob::with('user')
                 ->where('status', 'taken')
