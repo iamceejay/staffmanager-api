@@ -165,7 +165,7 @@ class SmoobuJobController extends Controller
             ]);
 
             if($job->staff_id) {
-                $message = 'Entschuldige, dein Dienst am ' . $job->start . ' im Apartment ' . $job->title . '.';
+                $message = 'Entschuldige, dein Dienst am ' . $job->start . ' im Apartment ' . $job->title . ' wurde storniert.';
                 $recipient = $job->user->phone_number;
 
                 $send_message = SendMessageJob::dispatch($recipient, $message);
