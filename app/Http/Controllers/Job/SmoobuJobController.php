@@ -246,7 +246,16 @@ class SmoobuJobController extends Controller
         DB::beginTransaction();
 
         try {
+            $job = SmoobuJob::with('user')->where('uuid', $request->uuid)->first();
+
             $delete = SmoobuJob::where('uuid', $request->uuid)->delete();
+
+            if($job->staff_id) {
+                $message = 'Entschuldige, dein Dienst am ' . $job->start . ' im Apartment ' . $job->title . ' wurde storniert.';
+                $recipient = $job->user->phone_number;
+
+                $send_message = SendMessageJob::dispatch($recipient, $message);
+            }
 
             DB::commit();
 
