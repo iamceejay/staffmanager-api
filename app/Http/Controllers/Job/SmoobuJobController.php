@@ -143,8 +143,7 @@ class SmoobuJobController extends Controller
 
     public function calendarJobs() {
         $jobs = SmoobuJob::with('user')
-                ->where('status', 'available')
-                ->orWhere('status', 'taken')
+                ->whereIn('status', ['available', 'taken'])
                 ->get();
 
         return response()->json([
