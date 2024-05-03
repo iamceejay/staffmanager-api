@@ -199,6 +199,10 @@ class SmoobuJobController extends Controller
                 $is_assignment = true;
             }
 
+            if($request->staff == '') {
+                $request->staff = null;
+            }
+
             $update = SmoobuJob::where('id', $request->id)->update([
                 'title'         => $request->title,
                 'staff_id'      => $request->staff,
