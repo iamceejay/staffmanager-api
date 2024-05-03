@@ -203,6 +203,12 @@ class SmoobuJobController extends Controller
                 $request->staff = null;
             }
 
+            $jobStatus = $job->status;
+
+            if(!$request->staff && $job->status === 'taken') {
+                $jobStatus = 'avilable';
+            }
+
             $update = SmoobuJob::where('id', $request->id)->update([
                 'title'         => $request->title,
                 'staff_id'      => $request->staff,
@@ -210,7 +216,7 @@ class SmoobuJobController extends Controller
                 'end'           => $request->end,
                 'location'      => $request->location,
                 'description'   => $request->description,
-                'status'        => $request->staff ? 'taken' : $job->status
+                'status'        => $jobStatus
             ]);
 
             $job = SmoobuJob::with('user')->where('id', $request->id)->first();
