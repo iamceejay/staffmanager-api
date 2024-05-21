@@ -389,15 +389,15 @@ class SmoobuJobController extends Controller
                     'arrival'           => $resp['arrival']
                 ]);
 
-                if($resp['channel']['id'] !== 61551) {
-                    // Invoice
-                    $invoice_insert = Invoice::create([
-                        'smoobu_id'     => $request->data['id'],
-                        'customer_name' => $request->data['guest-name'],
-                        'arrival'       => date('Y.m.d', strtotime($request->data['arrival'])),
-                        'departure'     => date('Y.m.d', strtotime($request->data['departure'])),
-                    ]);
-                }
+                // if($resp['channel']['id'] !== 61551) {
+                //     // Invoice
+                //     $invoice_insert = Invoice::create([
+                //         'smoobu_id'     => $request->data['id'],
+                //         'customer_name' => $request->data['guest-name'],
+                //         'arrival'       => date('Y.m.d', strtotime($request->data['arrival'])),
+                //         'departure'     => date('Y.m.d', strtotime($request->data['departure'])),
+                //     ]);
+                // }
 
                 if($is_excluded) {
                     SmoobuJob::where('smoobu_id', $request->data['id'])->delete();
