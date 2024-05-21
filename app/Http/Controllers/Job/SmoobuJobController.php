@@ -287,29 +287,8 @@ class SmoobuJobController extends Controller
     public function complete(Request $request) {
         DB::beginTransaction();
 
-        $key = getenv('SMOOBU_KEY');
-
         try {
             $job = SmoobuJob::with('user')->where('id', $request->id)->first();
-
-            // Smoobu
-            $resp = Http::acceptJson()->withHeaders([
-                'Api-Key'       => $key,
-                'Cache-Control' => 'no-cache'
-            ])->get('https://login.smoobu.com/api/reservations/' . $job->smoobu_id);
-            // Smoobu
-
-            // Invoice
-            if($resp['channel']['id'] !== 61551) {
-                // Invoice
-                $invoice_insert = Invoice::create([
-                    'smoobu_id'     => $job->smoobu_id,
-                    'customer_name' => $resp['guest-name'],
-                    'arrival'       => date('Y.m.d', strtotime($resp['arrival'])),
-                    'departure'     => date('Y.m.d', strtotime($resp['departure'])),
-                ]);
-            }
-            // Invoice
 
             $update = SmoobuJob::where('id', $request->id)->update([
                 'status'    => 'done',
