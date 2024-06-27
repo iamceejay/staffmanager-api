@@ -34,7 +34,7 @@ class InvoiceController extends Controller
         }
 
         $invoices = $invoices->has('invoices')
-                    ->orderBy(\DB::raw('(SELECT created_at FROM invoices WHERE invoices.smoobu_job_id = smoobu_jobs.id)'),'desc')
+                    ->orderBy(\DB::raw('(SELECT created_at FROM invoices WHERE invoices.smoobu_id = smoobu_jobs.smoobu_id)'),'desc')
                     ->paginate(10);
 
         return response()->json([
