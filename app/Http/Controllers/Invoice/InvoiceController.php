@@ -34,8 +34,7 @@ class InvoiceController extends Controller
                         });
         }
 
-        $invoices = $invoices->has('invoices')
-                    ->paginate(10);
+        $invoices = $invoices->has('invoices')->paginate(10);
 
         return response()->json([
             'message'   => 'Listing invoices',
