@@ -14,7 +14,8 @@ use Zip;
 class InvoiceController extends Controller
 {
     public function index(Request $request) {
-        $invoices = SmoobuJob::with('invoices');
+        $invoices = SmoobuJob::with('invoices')
+                    ->orderBy('invoices.created_at', 'desc');
 
         if($request->keyword) {
             $invoices = $invoices->where('smoobu_id', 'LIKE', '%' . $request->keyword . '%')
@@ -34,7 +35,6 @@ class InvoiceController extends Controller
         }
 
         $invoices = $invoices->has('invoices')
-                    ->orderBy('invoices.created_at', 'desc')
                     ->paginate(10);
 
         return response()->json([
