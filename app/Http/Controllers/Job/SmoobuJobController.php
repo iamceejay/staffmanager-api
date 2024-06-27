@@ -30,7 +30,8 @@ class SmoobuJobController extends Controller
                     ->orWhereHas('user', function($query) use ($request) {
                         $query->where('first_name', 'LIKE', '%' . $request->keyword . '%')
                             ->orWhere('last_name', 'LIKE', '%' . $request->keyword . '%');
-                    });
+                    })
+                    ->where('title', '!=', 'Reutte 1.OG');
         }
 
         if($request->status && $request->status !== '') {
@@ -323,7 +324,7 @@ class SmoobuJobController extends Controller
         Log::info($request);
         
         $key = getenv('SMOOBU_KEY');
-        $exclude_apartments = [478239, 123946];
+        $exclude_apartments = [478239, 123946, 2093659];
         $is_excluded = false;
 
         try {
