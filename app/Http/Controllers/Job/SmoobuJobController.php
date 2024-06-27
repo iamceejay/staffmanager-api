@@ -20,7 +20,7 @@ use App\Models\Invoice;
 class SmoobuJobController extends Controller
 {
     public function index(Request $request) {
-        $jobs = SmoobuJob::with('user');
+        $jobs = SmoobuJob::with('user')->where('title', '!=', 'Reutte 1.OG');
 
         if($request->keyword) {
             $jobs = $jobs->where('uuid', $request->keyword)
@@ -68,7 +68,7 @@ class SmoobuJobController extends Controller
             $jobs->orderBy(DB::raw('ABS(DATEDIFF(smoobu_jobs.start, NOW()))'));
         }
 
-        $jobs = $jobs->where('title', '!=', 'Reutte 1.OG')->get();
+        $jobs = $jobs->get();
 
         return response()->json([
             'status'    => 'success',
