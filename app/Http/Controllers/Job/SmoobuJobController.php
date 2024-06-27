@@ -23,14 +23,16 @@ class SmoobuJobController extends Controller
         $jobs = SmoobuJob::with('user');
 
         if($request->keyword) {
-            $jobs = $jobs->where('uuid', $request->keyword)
-                    // ->orWhere('title', 'LIKE', '%' . $request->keyword . '%')
+            $jobs = $jobs->where(function($q) use ($request, $keyword) {
+                $q->where('uuid', $request->keyword)
+                    ->orWhere('title', 'LIKE', '%' . $request->keyword . '%')
                     ->orWhere('location', 'LIKE', '%' . $request->keyword . '%')
                     ->orWhere('smoobu_id', $request->keyword)
                     ->orWhereHas('user', function($query) use ($request) {
                         $query->where('first_name', 'LIKE', '%' . $request->keyword . '%')
                             ->orWhere('last_name', 'LIKE', '%' . $request->keyword . '%');
                     });
+            })->where('title', '!=', 'Reutte 1.OG');
         }
 
         if($request->status && $request->status !== '') {
@@ -67,8 +69,6 @@ class SmoobuJobController extends Controller
         } else {
             $jobs->orderBy(DB::raw('ABS(DATEDIFF(smoobu_jobs.start, NOW()))'));
         }
-
-        $jobs = $jobs->where('title', '!=', 'Reutte 1.OG');
 
         $jobs = $jobs->get();
 
