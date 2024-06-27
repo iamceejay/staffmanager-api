@@ -33,7 +33,7 @@ class InvoiceController extends Controller
                         });
         }
 
-        $invoices = $invoices->has('invoices')->orderBy('smoobu_created_at')->paginate(10);
+        $invoices = $invoices->has('invoices')->orderBy('id')->paginate(10);
 
         return response()->json([
             'message'   => 'Listing invoices',
