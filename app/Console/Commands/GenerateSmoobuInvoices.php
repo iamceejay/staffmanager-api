@@ -46,7 +46,7 @@ class GenerateSmoobuInvoices extends Command
 
             if($resp['channel']['id'] !== 61551) {
                 Invoice::create([
-                    'smoobu_id' => $job->id,
+                    'smoobu_id' => $job->smoobu_id,
                     'customer_name' => $resp['guest-name'],
                     'arrival' => $resp['arrival'],
                     'departure' => $resp['departure'],
