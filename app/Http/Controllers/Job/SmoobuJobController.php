@@ -30,8 +30,7 @@ class SmoobuJobController extends Controller
                     ->orWhereHas('user', function($query) use ($request) {
                         $query->where('first_name', 'LIKE', '%' . $request->keyword . '%')
                             ->orWhere('last_name', 'LIKE', '%' . $request->keyword . '%');
-                    })
-                    ->where('title', '!=', 'Reutte 1.OG');
+                    });
         }
 
         if($request->status && $request->status !== '') {
@@ -69,7 +68,7 @@ class SmoobuJobController extends Controller
             $jobs->orderBy(DB::raw('ABS(DATEDIFF(smoobu_jobs.start, NOW()))'));
         }
 
-        $jobs = $jobs->get();
+        $jobs = $jobs->where('title', '!=', 'Reutte 1.OG')->get();
 
         return response()->json([
             'status'    => 'success',
