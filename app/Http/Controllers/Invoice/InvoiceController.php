@@ -34,9 +34,7 @@ class InvoiceController extends Controller
         }
 
         $invoices = $invoices->has('invoices')
-                    ->join('invoices', 'invoices.smoobu_id', '=', 'smoobu_jobs.smoobu_id')
                     ->orderBy('invoices.created_at', 'desc')
-                    ->select('smoobu_jobs.*') // Ensure only SmoobuJob fields are selected
                     ->paginate(10);
 
         return response()->json([
