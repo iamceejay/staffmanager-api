@@ -33,7 +33,9 @@ class InvoiceController extends Controller
                         });
         }
 
-        $invoices = $invoices->has('invoices')->orderBy('start', 'desc')->paginate(10);
+        $invoices = $invoices->has('invoices')
+                    ->orderBy(\DB::raw('(SELECT created_at FROM invoices WHERE invoices.smoobu_job_id = smoobu_jobs.id)'),'desc')
+                    ->paginate(10);
 
         return response()->json([
             'message'   => 'Listing invoices',
