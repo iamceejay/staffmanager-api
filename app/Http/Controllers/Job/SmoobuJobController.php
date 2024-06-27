@@ -24,7 +24,7 @@ class SmoobuJobController extends Controller
 
         if($request->keyword) {
             $jobs = $jobs->where('uuid', $request->keyword)
-                    ->orWhere('title', 'LIKE', '%' . $request->keyword . '%')
+                    // ->orWhere('title', 'LIKE', '%' . $request->keyword . '%')
                     ->orWhere('location', 'LIKE', '%' . $request->keyword . '%')
                     ->orWhere('smoobu_id', $request->keyword)
                     ->orWhereHas('user', function($query) use ($request) {
