@@ -16,7 +16,7 @@ class InvoiceController extends Controller
     public function index(Request $request) {
         $invoices = SmoobuJob::select('smoobu_jobs.*')
                 ->join('invoices', 'invoices.smoobu_id', '=', 'smoobu_jobs.smoobu_id')
-                ->orderBy('invoices.created_at', 'desc')
+                ->orderBy('invoices.id', 'desc')
                 ->with('invoices');
 
         if($request->keyword) {
