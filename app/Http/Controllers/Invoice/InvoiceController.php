@@ -15,7 +15,7 @@ class InvoiceController extends Controller
 {
     public function index(Request $request) {
         $invoices = SmoobuJob::with(['invoices' => function($query) {
-            $query->orderBy('created_at', 'desc');
+            $query->orderBy('created_at', 'asc');
         }]);
 
         if($request->keyword) {
