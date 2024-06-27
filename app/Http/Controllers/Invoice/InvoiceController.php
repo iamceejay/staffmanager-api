@@ -33,7 +33,7 @@ class InvoiceController extends Controller
                         });
         }
 
-        $invoices = $invoices->has('invoices')->orderBy('created_at', 'desc')->paginate(10);
+        $invoices = $invoices->has('invoices')->orderBy('start', 'desc')->paginate(10);
 
         return response()->json([
             'message'   => 'Listing invoices',
