@@ -20,7 +20,7 @@ use App\Models\Invoice;
 class SmoobuJobController extends Controller
 {
     public function index(Request $request) {
-        $jobs = SmoobuJob::with('user');
+        $jobs = SmoobuJob::with('user')->where('title', '!=', 'Reutte 1.OG');
 
         if($request->keyword) {
             $jobs = $jobs->where(function($q) use ($request) {
