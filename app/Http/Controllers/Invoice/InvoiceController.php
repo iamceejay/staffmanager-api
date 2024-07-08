@@ -17,11 +17,11 @@ class InvoiceController extends Controller
         $invoices = SmoobuJob::select('smoobu_jobs.*')
                 ->join('invoices', 'invoices.smoobu_id', '=', 'smoobu_jobs.smoobu_id')
                 ->orderBy('invoices.id', 'desc')
-                ->with('invoices');
+                ->with('invoices')
+                ->where('title', '!=', 'Reutte 1.OG');
 
         if($request->keyword) {
-            $invoices = $invoices->where('smoobu_id', 'LIKE', '%' . $request->keyword . '%')
-                        ->orWhere('smoobu_created_at', 'LIKE', '%' . $request->keyword . '%')
+            $invoices = $invoices->where('smoobu_created_at', 'LIKE', '%' . $request->keyword . '%')
                         ->orWhereHas('invoices', function($query) use($request) {
                             if(is_numeric($request->keyword)) {
                                 $query->where('arrival', 'LIKE', '%' . $request->keyword . '%')
