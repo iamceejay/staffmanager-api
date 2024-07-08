@@ -18,6 +18,6 @@ class Invoice extends Model
     ];
     
     public function job() {
-        return $this->belongsTo(SmoobuJob::class, 'smoobu_id');
+        return $this->belongsTo(SmoobuJob::class, 'smoobu_id', 'smoobu_id');
     }
 }
