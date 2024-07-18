@@ -97,10 +97,10 @@ class InvoiceController extends Controller
         $invoices = [];
         $zip = Zip::create($zip_name);
         
-        $invoices = Invoice::whereBetween('created_at', [$request->start, $request->end])
+        $invoicesQuery = Invoice::whereBetween('created_at', [$request->start, $request->end])
                     ->get();
 
-        foreach($invoices as $invoice) {
+        foreach($invoicesQuery as $invoice) {
             if(!$invoice) {
                 continue;
             }
