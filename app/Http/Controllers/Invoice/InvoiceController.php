@@ -97,7 +97,7 @@ class InvoiceController extends Controller
         $invoices = [];
         $zip = Zip::create($zip_name);
         
-        $invoices = Invoice::whereBetween('smoobu_created_at', [$request->start, $request->end])
+        $invoices = Invoice::whereBetween('created_at', [$request->start, $request->end])
                     ->get();
 
         foreach($invoices as $invoice) {
