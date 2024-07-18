@@ -96,14 +96,11 @@ class InvoiceController extends Controller
 
         $invoices = [];
         $zip = Zip::create($zip_name);
+        
+        $invoices = Invoice::whereBetween('smoobu_created_at', [$request->start, $request->end])
+                    ->get();
 
-        $jobs = SmoobuJob::withTrashed()
-            ->whereBetween('smoobu_created_at', [$request->start, $request->end])
-            ->get();
-
-        foreach($jobs as $job) {
-            $invoice = Invoice::where('smoobu_id', $job->smoobu_id)->first();
-
+        foreach($invoices as $invoice) {
             if(!$invoice) {
                 continue;
             }
@@ -139,7 +136,7 @@ class InvoiceController extends Controller
                 'konto'         => $konto,
                 'gkonto'        => '4030',
                 'belegnr'       => 1110 + $invoice->id,
-                'belegdatum'    => date('Y.m.d', strtotime($job->smoobu_created_at)),
+                'belegdatum'    => date('Y.m.d', strtotime($invoice->created_at)),
                 'buchsymbol'    => 'AR',
                 'buchcode'      => '1',
                 'prozent'       => '10',
