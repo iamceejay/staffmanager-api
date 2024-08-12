@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Invoice;
-use App\Models\SmoobuJob;
 use Carbon\Carbon;
 
 class UpdateInvoiceDates extends Command
@@ -28,24 +27,20 @@ class UpdateInvoiceDates extends Command
      */
     public function handle()
     {
-        $jobs = SmoobuJob::all();
+        $invoices = Invoice::all();
 
-        foreach($jobs as $job) {
-            $invoice = Invoice::where('smoobu_id', $job->smoobu_id)->first();
+        foreach($invoices as $invoice) {
+            $newCreatedAt = Carbon::parse($invoice->departure)->addDay();
 
-            if($invoice) {
-                $newCreatedAt = Carbon::parse($job->end_date)->addDay();
-
-                if($invoice->created_at->eq($newCreatedAt)) {
-                    echo "Skipped: $job->smoobu_id \r\n";
-                    continue;
-                }
-
-                $invoice->created_at = $newCreatedAt;
-                $invoice->save();
-
-                echo "Updated: $job->smoobu_id \r\n";
+            if($invoice->created_at->eq($newCreatedAt)) {
+                echo "Skipped: $invoice->smoobu_id \r\n";
+                continue;
             }
+
+            $invoice->created_at = $newCreatedAt;
+            $invoice->save();
+
+            echo "Updated: $invoice->smoobu_id \r\n";
         }
     }
 }
