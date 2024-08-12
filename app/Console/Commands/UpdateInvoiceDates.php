@@ -30,7 +30,13 @@ class UpdateInvoiceDates extends Command
         $invoices = Invoice::all();
 
         foreach($invoices as $invoice) {
-            $newCreatedAt = Carbon::parse($invoice->departure)->addDay();
+            if (strpos($invoice->departure, '.') !== false) {
+                $endDate = Carbon::createFromFormat('Y.m.d', $invoice->departure);
+            } else {
+                $endDate = Carbon::parse($invoice->departure);
+            }
+
+            $newCreatedAt = $endDate->addDay();
 
             if($invoice->created_at->eq($newCreatedAt)) {
                 echo "Skipped: $invoice->smoobu_id \r\n";
