@@ -14,7 +14,8 @@ class Invoice extends Model
         'customer_name',
         'customer_address',
         'arrival',
-        'departure'
+        'departure',
+        'created_at',
     ];
     
     public function job() {
