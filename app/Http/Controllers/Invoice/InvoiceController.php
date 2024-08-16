@@ -159,6 +159,7 @@ class InvoiceController extends Controller
                         'number'    => 1110 + $invoice->id,
                         'address'   => $invoice->customer_address,
                         'customer'  => $invoice->customer_name,
+                        'invoice_date'  => $invoice->created_at,
                     ]
                 );
 
@@ -172,6 +173,7 @@ class InvoiceController extends Controller
                         'number'    => 1110 + $invoice->id,
                         'address'   => $invoice->customer_address,
                         'customer'  => $invoice->customer_name,
+                        'invoice_date'  => $invoice->created_at,
                     ]
                 );
 
