@@ -208,10 +208,13 @@ class SmoobuJobController extends Controller
 
             $jobStatus = $job->status;
 
-            if(!$request->staff && $job->status === 'taken') {
-                $jobStatus = 'available';
+            if ($jobStatus !== 'cancelled' && $jobStatus !== 'done') {
+                if (!$request->staff) {
+                    $jobStatus = 'available';
+                } else {
+                    $jobStatus = 'taken';
+                }
             }
-
             $update = SmoobuJob::where('id', $request->id)->update([
                 'title'         => $request->title,
                 'staff_id'      => $request->staff,
