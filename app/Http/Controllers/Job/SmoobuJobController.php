@@ -497,6 +497,13 @@ class SmoobuJobController extends Controller
             $job = SmoobuJob::with('user')->where('uuid', $request->uuid)->first();
             $user = Auth::user();
 
+            if($job->status === 'taken') {
+                return response()->json([
+                    'message'   => 'Job is already assigned.',
+                    'status'    => 'error'
+                ], 403);
+            }
+
             $update = SmoobuJob::where('uuid', $request->uuid)->update([
                 'staff_id'      => $user->id,
                 'status'        => 'taken'
