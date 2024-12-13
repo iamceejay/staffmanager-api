@@ -15,7 +15,7 @@ class SyncSmoobuBookings extends Command
      *
      * @var string
      */
-    protected $signature = 'staffmanager:sync-smoobu-bookings {from} {to} {page} {size}';
+    protected $signature = 'staffmanager:sync-smoobu-bookings {from} {to} {page} {size} {apartmentID}';
 
     /**
      * The console command description.
@@ -37,6 +37,7 @@ class SyncSmoobuBookings extends Command
             'from'              => $this->argument('from'),
             'to'                => $this->argument('to'),
             'excludeBlocked'    => true,
+            'apartmentId'       => $this->argument('apartmentID'),
         ])->withHeaders([
             'Api-Key'       => $key,
             'Cache-Control' => 'no-cache'
