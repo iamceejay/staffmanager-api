@@ -53,6 +53,8 @@ class SyncSmoobuBookings extends Command
                 if(strtotime($booking['arrival']) < strtotime($this->argument('from')) ||  strtotime($booking['arrival']) > strtotime($this->argument('to'))) {
                     continue;
                 }
+
+                echo $booking['check-out'];
                 
                 $location = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
