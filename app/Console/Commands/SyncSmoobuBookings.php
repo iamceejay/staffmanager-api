@@ -73,8 +73,8 @@ class SyncSmoobuBookings extends Command
                         'uuid'          => Str::uuid(),
                         'smoobu_id'     => $booking['id'],
                         'title'         => $booking['apartment']['name'],
-                        'start'         => $booking['departure'] . ' ' . ($booking['check-out'] ?? '11:00') . ':00',
-                        'end'           => $booking['departure'] . ' ' . ($booking['check-in'] ?? '15:00') . ':00',
+                        'start'         => $booking['departure'] . ' ' . (isset($booking['check-out']) && $booking['check-out'] !== 'NULL' ? $booking['check-out'] . ':00' : '11:00:00'),
+                        'end'           => $booking['departure'] . ' ' . (isset($booking['check-in']) && $booking['check-in'] !== 'NULL' ? $booking['check-in'] . ':00' : '15:00:00'),
                         'location'      => $location,
                         'description'   => $booking['notice']
                     ]);
@@ -83,8 +83,8 @@ class SyncSmoobuBookings extends Command
                         'uuid'              => Str::uuid(),
                         'smoobu_id'         => $booking['id'],
                         'title'             => $booking['apartment']['name'],
-                        'start'         => $booking['departure'] . ' ' . ($booking['check-out'] ?? '11:00') . ':00',
-                        'end'           => $booking['departure'] . ' ' . ($booking['check-in'] ?? '15:00') . ':00',
+                        'start' => $booking['departure'] . ' ' . (isset($booking['check-out']) && $booking['check-out'] !== 'NULL' ? $booking['check-out'] . ':00' : '11:00:00'),
+                        'end'   => $booking['departure'] . ' ' . (isset($booking['check-in']) && $booking['check-in'] !== 'NULL' ? $booking['check-in'] . ':00' : '15:00:00'),
                         'location'          => $location,
                         'description'       => $booking['notice'],
                         'status'            => 'available',
