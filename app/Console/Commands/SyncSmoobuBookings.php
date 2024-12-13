@@ -54,7 +54,7 @@ class SyncSmoobuBookings extends Command
                     continue;
                 }
 
-                echo $booking['check-out'];
+                echo 'Checkout: ' . $booking['check-out'];
                 
                 $location = Http::acceptJson()->withHeaders([
                     'Api-Key'       => $key,
