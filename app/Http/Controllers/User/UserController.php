@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\SmoobuJob;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -75,16 +77,34 @@ class UserController extends Controller
 
     public function delete($id) {
         try {
+            DB::beginTransaction();
+
+            SmoobuJob::unguard();
+            
+            SmoobuJob::where('staff_id', $id)
+                ->where('status', 'taken')
+                ->update([
+                    'status' => 'available',
+                    'staff_id' => null
+                ]);
+
+            SmoobuJob::reguard();
+            
             User::where('id', $id)->delete();
+            
+            DB::commit();
 
             return response()->json([
                 'status'    => 'success',
-                'message'   => 'User has been deleted.'
+                'message'   => 'User has been deleted and their jobs have been updated.'
             ]);
+
         } catch(Throwable $e) {
+            DB::rollBack();
+            
             return response()->json([
                 'status'    => 'error',
-                'message'   => $e
+                'message'   => $e->getMessage()
             ], 500);
         }
     }
