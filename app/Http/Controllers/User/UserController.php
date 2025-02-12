@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SmoobuJob;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -105,6 +106,28 @@ class UserController extends Controller
             return response()->json([
                 'status'    => 'error',
                 'message'   => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function resetPassword($id, Request $request) {
+        try {
+            $request->validate([
+                'password' => 'required|min:6'
+            ]);
+
+            User::where('id', $id)->update([
+                'password' => Hash::make($request->password)
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Password has been reset successfully.'
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
             ], 500);
         }
     }

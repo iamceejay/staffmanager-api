@@ -33,6 +33,7 @@ Route::prefix('users')->group(function() {
     Route::group([ 'middleware' => [ 'auth:api' ] ], function() {
         Route::middleware('role:admin')->group(function() {
             Route::delete('/{id}', [UserController::class, 'delete']);
+            Route::post('/{id}/reset-password', [UserController::class, 'resetPassword']);
         });
     });
 });
